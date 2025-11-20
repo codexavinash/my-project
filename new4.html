@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>JavaScript switch Example</h2>
+<p id="demo"></p>
+<script>
+let day;
+let dayNumber = new Date().getDay(); 
+switch (dayNumber) {
+  case 0:
+    day = "Sunday";
+    break;
+  case 1:
+    day = "Monday";
+    break;
+  case 2:
+    day = "Tuesday";
+    break;
+  case 3:
+    day = "Wednesday";
+    break;
+  case 4:
+    day = "Thursday";
+    break;
+  case 5:
+    day = "Friday";
+    break;
+  case 6:
+    day = "Saturday";
+    break;
+  default:
+    day = "Unknown Day";
+}
+document.getElementById("demo").innerHTML = "Today is " + day;
+</script>
+</body>
+</html>

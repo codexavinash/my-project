@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JavaScript in Head</title>
+    </head>
+    <body>
+        <h1>JavaScript Objects</h1>
+        <p id="demo">/</p>
+        <script>
+            function person(first, last, age, eye){
+                this.firstName = first;
+                this.lastName = last;
+                this.age = age;
+                this.eyeColor = eye;
+                this.nationality = "Indian";
+            }
+            const myobj={
+                name:"john",
+                age:30,
+                myCars:{
+                    car1:"Ford",
+                    car2:"Mustang 1970",
+                    car3:"Lexus"
+
+                }
+            }
+            const myBrother = new person("Max", "Smith", 25, "black");
+            const myFriend = new person("karl", "maax", 48, "green");
+            document.getElementById("demo").innerHTML = "My brother is" + myBrother.firstName + " years old";
+            document.getElementById("demo").innerHTML = myobj.myCars.car3;
+        </script>
+    </body>
+</html>

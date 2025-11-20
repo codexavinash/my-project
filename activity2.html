@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Book Store</title>
+</head>
+<body>
+    
+
+    <div class="section" id="home">
+        <span class="icon">🏠</span> <b>Home</b>
+        <p>“A room without books is like a body without a soul.” – <i>Cicero</i></p>
+        <b>Featured Book</b><br>
+        <div class="featured-book">
+            <img src="c:\Users\User\Desktop\images.jpg" alt="Featured Book" height="200" width="200">
+        </div>
+    </div>
+    <hr>
+
+    <div class="section" id="categories">
+        <span class="icon">📖</span> <b>Book Categories</b>
+        <ul>
+            <li>Programming</li>
+            <li>Science Fiction</li>
+            <li>Biographies</li>
+            <li>History</li>
+            <li>Novels</li>
+        </ul>
+        <b>Book Price List</b>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>Learn HTML</td>
+                <td>John Doe</td>
+                <td>$20</td>
+            </tr>
+            <tr>
+                <td>Science Fiction World</td>
+                <td>Jane Smith</td>
+                <td>$15</td>
+            </tr>
+            <tr>
+                <td>Great Biographies</td>
+                <td>Mark Brown</td>
+                <td>$25</td>
+            </tr>
+        </table>
+    </div>
+    <hr>
+
+    <div class="section order-form" id="order">
+        <span class="icon">🛒</span> <b>Order Form</b>
+        <form>
+            <label>Your Name: <input type="text" name="name"></label>
+            <label>Address:<br>
+                <textarea name="address" rows="2"></textarea>
+            </label>
+            <label>Select Book:
+                <select name="book">
+                    <option>Learn HTML</option>
+                    <option>Science Fiction World</option>
+                    <option>Great Biographies</option>
+                </select>
+            </label>
+            <label>Payment Method:</label>
+            <input type="radio" name="payment" value="cod"> Cash on Delivery
+            <input type="radio" name="payment" value="card"> Credit/Debit Card
+            <br><br>
+            <input type="submit" value="Place Order">
+            <input type="reset" value="Reset">
+        </form>
+    </div>
+    <div class="back-to-top">
+        <a href="#">↑ Back to Top</a>
+    </div>
+</body>
+</html>

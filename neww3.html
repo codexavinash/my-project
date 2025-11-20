@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Javascript if</h1>
+<p id="id3"></p>
+<p id="id4"></p>
+<script>
+document.getElementById("id3").innerHTML = text;
+let text;
+let num = Math.random();
+if (num<0.33){
+    text= "<a href='https://www.google.com/'> Visit Google</a>";
+}else if(num<0.65){
+    text = "<a href='https://www.wikipedia.org/'> Visit wikipedia</a>";
+}else {
+    text = "a href='https://ums.lpu.in/lpuums/'> Visit UMS</a>";
+}
+document.getElementById("id3").innerHTML = text;
+document.getElementById("id4").innerHTML = "Random number:"+num;
+
+</script>
+</body>
+</html>

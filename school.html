@@ -1,0 +1,2571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RBT Vidalaya – Nurturing Minds, Building Futures</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --cream: #f5f0e8;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --light-bg: #faf8f4;
+            --border: #e8e0d0;
+            --shadow: 0 8px 40px rgba(13, 27, 42, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--white);
+            color: var(--navy);
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 27, 42, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            height: 60px;
+            background: rgba(13, 27, 42, 1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .nav-logo .emblem {
+            width: 46px;
+            height: 46px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.3);
+        }
+
+        .nav-logo .logo-text {
+            color: var(--white);
+        }
+
+        .nav-logo .logo-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-logo .logo-text span {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+            background: rgba(201, 168, 76, 0.1);
+        }
+
+        .nav-cta {
+            background: var(--gold);
+            color: var(--navy) !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            padding: 8px 20px !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold-light) !important;
+            color: var(--navy) !important;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            background: var(--navy);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201, 168, 76, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 80% at 10% 80%, rgba(201, 168, 76, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #0d1b2a 0%, #142236 50%, #0d1b2a 100%);
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image:
+                linear-gradient(rgba(201, 168, 76, 1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201, 168, 76, 1) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 80px;
+        }
+
+        .hero-left {
+            animation: fadeUp 0.9s ease forwards;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(201, 168, 76, 0.12);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 28px;
+        }
+
+        .hero-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(38px, 5vw, 62px);
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .hero-left h1 em {
+            font-style: italic;
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1em;
+        }
+
+        .hero-sub {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            max-width: 480px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(201, 168, 76, 0.5);
+        }
+
+        .btn-outline {
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201, 168, 76, 0.06);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .stat {
+            border-left: 2px solid rgba(201, 168, 76, 0.4);
+            padding-left: 16px;
+        }
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Hero right card stack */
+        .hero-right {
+            position: relative;
+            animation: fadeUp 1.1s 0.2s ease both;
+        }
+
+        .hero-card-main {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 20px;
+            padding: 36px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-school-badge {
+            width: 72px;
+            height: 72px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--navy);
+            margin: 0 auto 20px;
+        }
+
+        .hero-card-main h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .hero-card-main p {
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(201, 168, 76, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .feature-text h4 {
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .feature-text p {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 11px;
+            margin-top: 1px;
+        }
+
+        /* floating badge */
+        .hero-float {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--gold);
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 28px rgba(201, 168, 76, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hero-float .num {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--navy);
+        }
+
+        .hero-float .lbl {
+            font-size: 10px;
+            color: rgba(13, 27, 42, 0.7);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* ── MARQUEE ── */
+        .marquee-bar {
+            background: var(--gold);
+            padding: 12px 0;
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 48px;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            letter-spacing: 0.5px;
+        }
+
+        .marquee-item::before {
+            content: '★';
+            font-size: 10px;
+        }
+
+        @keyframes marquee {
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ── SECTION COMMON ── */
+        section {
+            padding: 90px 40px;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--navy);
+        }
+
+        .section-title.light {
+            color: var(--white);
+        }
+
+        .section-sub {
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-top: 14px;
+            max-width: 540px;
+        }
+
+        .section-sub.light {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        /* ── ABOUT ── */
+        #about {
+            background: var(--light-bg);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-image-block {
+            position: relative;
+        }
+
+        .about-image-block .img-main {
+            width: 100%;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 100%);
+            height: 440px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .school-illustration {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .school-illustration .big-icon {
+            font-size: 80px;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .school-illustration h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--gold);
+        }
+
+        .school-illustration p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 6px;
+        }
+
+        .about-badge {
+            position: absolute;
+            bottom: -16px;
+            left: -16px;
+            background: var(--gold);
+            border-radius: 14px;
+            padding: 18px 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .about-badge .val {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--navy);
+        }
+
+        .about-badge .val-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(13, 27, 42, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .values-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 36px;
+        }
+
+        .value-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 18px;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .value-item:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.1);
+            transform: translateX(4px);
+        }
+
+        .value-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .value-item h4 {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .value-item p {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        /* ── PROGRAMS ── */
+        #programs {
+            background: var(--white);
+        }
+
+        .programs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .program-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 32px;
+            transition: all 0.35s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            transform-origin: left;
+        }
+
+        .program-card:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow);
+            transform: translateY(-4px);
+        }
+
+        .program-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .program-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: rgba(13, 27, 42, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .program-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .program-card p {
+            color: var(--gray);
+            font-size: 13.5px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .program-tag {
+            display: inline-block;
+            background: rgba(201, 168, 76, 0.15);
+            color: #a07830;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 100px;
+        }
+
+        /* ── FEATURES DARK ── */
+        #features {
+            background: var(--navy);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #features::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 60% at 80% 20%, rgba(201, 168, 76, 0.07) 0%, transparent 60%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 56px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: rgba(201, 168, 76, 0.08);
+            border-color: rgba(201, 168, 76, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .feature-card .f-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h4 {
+            color: var(--white);
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ── GALLERY ── */
+        #gallery {
+            background: var(--light-bg);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 200px);
+            gap: 16px;
+            margin-top: 50px;
+        }
+
+        .gallery-item {
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+
+        .gallery-item.wide {
+            grid-column: span 2;
+        }
+
+        .gallery-item .g-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            transition: transform 0.4s;
+        }
+
+        .gallery-item:hover .g-inner {
+            transform: scale(1.06);
+        }
+
+        .gallery-item .g-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 16px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: var(--white);
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .g-label {
+            opacity: 1;
+        }
+
+        .g1 {
+            background: linear-gradient(135deg, #1e3a5f, #2d5a8e);
+        }
+
+        .g2 {
+            background: linear-gradient(135deg, #2d4a1e, #4a7a30);
+        }
+
+        .g3 {
+            background: linear-gradient(135deg, #5a2d1e, #8e4a30);
+        }
+
+        .g4 {
+            background: linear-gradient(135deg, #4a1e5a, #7a308e);
+        }
+
+        .g5 {
+            background: linear-gradient(135deg, #1e4a4a, #308e8e);
+        }
+
+        .g6 {
+            background: linear-gradient(135deg, #4a4a1e, #8e8e30);
+        }
+
+        /* ── FACULTY ── */
+        #faculty {
+            background: var(--white);
+        }
+
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 50px;
+        }
+
+        .faculty-card {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .faculty-card:hover {
+            border-color: var(--gold);
+            box-shadow: var(--shadow);
+            transform: translateY(-4px);
+        }
+
+        .faculty-avatar {
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 54px;
+            position: relative;
+        }
+
+        .faculty-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .faculty-info {
+            padding: 20px 16px;
+        }
+
+        .faculty-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .faculty-info .role {
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .faculty-info .qual {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .fa1 {
+            background: linear-gradient(160deg, #e8f0f8, #c5d8ee);
+        }
+
+        .fa2 {
+            background: linear-gradient(160deg, #f0e8f8, #d8c5ee);
+        }
+
+        .fa3 {
+            background: linear-gradient(160deg, #e8f8ec, #c5eece);
+        }
+
+        .fa4 {
+            background: linear-gradient(160deg, #f8f0e8, #eecec5);
+        }
+
+        /* ── TESTIMONIALS ── */
+        #testimonials {
+            background: var(--navy);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 56px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 32px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(201, 168, 76, 0.4);
+            background: rgba(201, 168, 76, 0.06);
+        }
+
+        .testimonial-card .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 60px;
+            line-height: 1;
+            color: var(--gold);
+            opacity: 0.5;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .testimonial-card p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .t-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: rgba(201, 168, 76, 0.15);
+        }
+
+        .t-name h5 {
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .t-name span {
+            color: var(--gold);
+            font-size: 11px;
+        }
+
+        /* ── ADMISSIONS ── */
+        #admissions {
+            background: var(--white);
+        }
+
+        .admission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .admission-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 30px;
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            padding-bottom: 30px;
+            position: relative;
+        }
+
+        .step:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: var(--gold);
+            color: var(--navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .step-content h4 {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            color: var(--gray);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Admission form */
+        .admission-form-box {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 36px;
+        }
+
+        .admission-form-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            color: var(--navy);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            background: var(--white);
+            color: var(--navy);
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #2d7a30;
+            background: #e8f8ec;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        /* ── NOTICE BOARD ── */
+        #notices {
+            background: var(--light-bg);
+        }
+
+        .notices-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .notice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .notice-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 16px;
+            background: var(--white);
+            border-radius: 12px;
+            border-left: 3px solid var(--gold);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .notice-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .notice-date {
+            min-width: 50px;
+            text-align: center;
+            background: var(--gold);
+            border-radius: 8px;
+            padding: 6px;
+        }
+
+        .notice-date .d {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--navy);
+        }
+
+        .notice-date .m {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+        }
+
+        .notice-text h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .notice-text p {
+            font-size: 12px;
+            color: var(--gray);
+            line-height: 1.4;
+        }
+
+        .events-box {
+            background: var(--navy);
+            border-radius: 20px;
+            padding: 28px;
+        }
+
+        .events-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .event-item {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .event-item:last-child {
+            border: none;
+        }
+
+        .event-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .event-info h5 {
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .event-info span {
+            color: var(--gold);
+            font-size: 11px;
+        }
+
+        /* ── CONTACT ── */
+        #contact {
+            background: var(--navy);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #contact::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 50% 70% at 20% 50%, rgba(201, 168, 76, 0.07) 0%, transparent 60%);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info {
+            color: var(--white);
+        }
+
+        .contact-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .contact-info>p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .contact-item .ci-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .contact-item h5 {
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .contact-item p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 14px;
+        }
+
+        .contact-form-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 36px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-form-box h3 {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin-bottom: 24px;
+        }
+
+        .contact-form-box .form-group label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .contact-form-box input,
+        .contact-form-box select,
+        .contact-form-box textarea {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+            color: var(--white) !important;
+        }
+
+        .contact-form-box input::placeholder,
+        .contact-form-box textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-form-box input:focus,
+        .contact-form-box textarea:focus {
+            border-color: var(--gold) !important;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #060e18;
+            padding: 60px 40px 30px;
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-brand .emblem {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--white);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .footer-brand .affil {
+            color: var(--gold);
+            font-size: 11px;
+            letter-spacing: 1px;
+            margin-top: 12px;
+        }
+
+        .footer-col h4 {
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 13.5px;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 12.5px;
+        }
+
+        .footer-bottom .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-link {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .social-link:hover {
+            border-color: var(--gold);
+            background: rgba(201, 168, 76, 0.1);
+        }
+
+        /* ── BACK TO TOP ── */
+        #back-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--gold);
+            border: none;
+            cursor: pointer;
+            color: var(--navy);
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #back-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #back-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ── MOBILE MENU ── */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: var(--navy);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 22px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--gold);
+        }
+
+        .mobile-menu .close-btn {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .hero-right {
+                display: none;
+            }
+
+            .about-grid,
+            .admission-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .faculty-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .faculty-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+            }
+
+            .gallery-item.tall,
+            .gallery-item.wide {
+                grid-row: span 1;
+                grid-column: span 1;
+            }
+
+            .notices-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faculty-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+        <a href="#hero" class="nav-logo">
+            <div class="emblem">RBT</div>
+            <div class="logo-text">
+                <h1>RBT Vidalaya</h1>
+                <span>Est. 1995 · Excellence in Education</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#programs">Programs</a></li>
+            <li><a href="#faculty">Faculty</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#notices">Notices</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#admissions" class="nav-cta">Admissions</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-btn" id="closeMenu">✕</button>
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#faculty">Faculty</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#notices">Notices</a>
+        <a href="#admissions">Admissions</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <div class="hero-left">
+                <div class="hero-tag">🏫 Welcome to RBT Vidalaya</div>
+                <h1>Nurturing <em>Minds,</em><br>Building Futures</h1>
+                <p class="hero-sub">A premier institution committed to holistic education — where academic excellence
+                    meets character development, creativity, and lifelong learning.</p>
+                <div class="hero-btns">
+                    <a href="#admissions" class="btn-primary">Apply for Admission</a>
+                    <a href="#about" class="btn-outline">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-num">29+</div>
+                        <div class="stat-label">Years of Excellence</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">3,200+</div>
+                        <div class="stat-label">Students</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">120+</div>
+                        <div class="stat-label">Faculty Members</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num">98%</div>
+                        <div class="stat-label">Pass Rate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="hero-card-main">
+                    <div class="card-school-badge">RBT</div>
+                    <h3>RBT Vidalaya</h3>
+                    <p>Affiliated to CBSE · New Delhi</p>
+                    <div class="hero-features">
+                        <div class="hero-feature">
+                            <div class="feature-icon">📚</div>
+                            <div class="feature-text">
+                                <h4>Classes I – XII</h4>
+                                <p>Science, Commerce & Humanities streams</p>
+                            </div>
+                        </div>
+                        <div class="hero-feature">
+                            <div class="feature-icon">🏆</div>
+                            <div class="feature-text">
+                                <h4>Award-Winning Institution</h4>
+                                <p>Best School Award 2023 – State Level</p>
+                            </div>
+                        </div>
+                        <div class="hero-feature">
+                            <div class="feature-icon">💻</div>
+                            <div class="feature-text">
+                                <h4>Smart Classrooms</h4>
+                                <p>AI-powered learning environment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-float">
+                    <div class="num">A+</div>
+                    <div class="lbl">NAAC Grade</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-bar">
+        <div class="marquee-track">
+            <div class="marquee-item">Admissions Open 2025–26</div>
+            <div class="marquee-item">Annual Sports Day – 15th January 2025</div>
+            <div class="marquee-item">Science Exhibition – 20th February 2025</div>
+            <div class="marquee-item">CBSE Board Results: 100% Pass Rate</div>
+            <div class="marquee-item">New Smart Lab Inauguration – February 2025</div>
+            <div class="marquee-item">Admissions Open 2025–26</div>
+            <div class="marquee-item">Annual Sports Day – 15th January 2025</div>
+            <div class="marquee-item">Science Exhibition – 20th February 2025</div>
+            <div class="marquee-item">CBSE Board Results: 100% Pass Rate</div>
+            <div class="marquee-item">New Smart Lab Inauguration – February 2025</div>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-image-block">
+                    <div class="img-main">
+                        <div class="school-illustration">
+                            <span class="big-icon">🏫</span>
+                            <h3>RBT Vidalaya</h3>
+                            <p>Rajpur, New Delhi – 110001</p>
+                        </div>
+                    </div>
+                    <div class="about-badge">
+                        <div class="val">1995</div>
+                        <div class="val-label">Founded</div>
+                    </div>
+                </div>
+                <div class="about-right">
+                    <div class="section-label">Our Story</div>
+                    <h2 class="section-title">A Legacy of Learning & Leadership</h2>
+                    <p class="section-sub">RBT Vidalaya was established in 1995 with a singular vision: to provide
+                        world-class education rooted in Indian values. For nearly three decades, we have shaped
+                        thousands of leaders, innovators, and responsible citizens.</p>
+                    <div class="values-list">
+                        <div class="value-item">
+                            <div class="value-icon">🎯</div>
+                            <div>
+                                <h4>Our Mission</h4>
+                                <p>To empower every student with knowledge, skills, and values to thrive in a dynamic
+                                    world — academically, personally, and ethically.</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">👁️</div>
+                            <div>
+                                <h4>Our Vision</h4>
+                                <p>To be India's most trusted learning institution — recognized for academic excellence,
+                                    innovation, and holistic student development.</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon">⭐</div>
+                            <div>
+                                <h4>Our Values</h4>
+                                <p>Integrity · Respect · Excellence · Innovation · Community Service — the pillars that
+                                    define the RBT way of life.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section id="programs">
+        <div class="section-container">
+            <div class="programs-header">
+                <div>
+                    <div class="section-label">Academic Programs</div>
+                    <h2 class="section-title">World-Class Curriculum<br>for Every Learner</h2>
+                </div>
+                <a href="#admissions" class="btn-primary">Explore All Programs</a>
+            </div>
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-icon">🔬</div>
+                    <h3>Science Stream</h3>
+                    <p>Physics, Chemistry, Biology & Mathematics with state-of-the-art laboratories and research
+                        opportunities for future scientists and engineers.</p>
+                    <span class="program-tag">Classes XI – XII</span>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">📊</div>
+                    <h3>Commerce Stream</h3>
+                    <p>Accountancy, Business Studies, Economics & Mathematics with real-world case studies preparing
+                        students for finance and business careers.</p>
+                    <span class="program-tag">Classes XI – XII</span>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">📖</div>
+                    <h3>Humanities Stream</h3>
+                    <p>History, Political Science, Geography, Psychology & Sociology — developing critical thinkers and
+                        compassionate leaders.</p>
+                    <span class="program-tag">Classes XI – XII</span>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">🎨</div>
+                    <h3>Primary School</h3>
+                    <p>Activity-based learning for Classes I–V focused on foundational literacy, numeracy, creativity,
+                        and values through play and exploration.</p>
+                    <span class="program-tag">Classes I – V</span>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">🧮</div>
+                    <h3>Middle School</h3>
+                    <p>A comprehensive curriculum for Classes VI–VIII building analytical thinking, STEM skills,
+                        language proficiency, and social awareness.</p>
+                    <span class="program-tag">Classes VI – VIII</span>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">🎓</div>
+                    <h3>Secondary School</h3>
+                    <p>Rigorous CBSE preparation for Classes IX–X with focused exam coaching, project-based learning,
+                        and board exam excellence training.</p>
+                    <span class="program-tag">Classes IX – X</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+        <div class="section-container">
+            <div class="section-label" style="color:var(--gold)">World-Class Infrastructure</div>
+            <h2 class="section-title light">Everything a Student Needs<br>to Excel</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="f-icon">🖥️</div>
+                    <h4>Smart Classrooms</h4>
+                    <p>All classrooms equipped with interactive projectors, Wi-Fi, and digital learning tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">⚗️</div>
+                    <h4>Modern Laboratories</h4>
+                    <p>Physics, Chemistry, Biology, Computer, and Language labs with latest equipment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">📚</div>
+                    <h4>Digital Library</h4>
+                    <p>15,000+ books, e-journals, and 24/7 digital access to global knowledge resources.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">⚽</div>
+                    <h4>Sports Complex</h4>
+                    <p>Olympic-grade playground, basketball court, indoor badminton, and swimming pool.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">🎭</div>
+                    <h4>Auditorium & Arts</h4>
+                    <p>500-seat auditorium for events, music room, dance studio, and art gallery.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">🍽️</div>
+                    <h4>Hygienic Cafeteria</h4>
+                    <p>Nutritious meals prepared daily with fresh ingredients by trained kitchen staff.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">🚌</div>
+                    <h4>Transport Facility</h4>
+                    <p>GPS-tracked bus service covering 40+ routes across the city for safe commuting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="f-icon">🔒</div>
+                    <h4>Safe Campus</h4>
+                    <p>24/7 CCTV surveillance, trained security personnel, and child-safe environment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+        <div class="section-container">
+            <div class="section-label">Campus Life</div>
+            <h2 class="section-title">Life at RBT Vidalaya</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item tall g1">
+                    <div class="g-inner">🏫</div>
+                    <div class="g-label">Main Building</div>
+                </div>
+                <div class="gallery-item g2">
+                    <div class="g-inner">⚗️</div>
+                    <div class="g-label">Science Lab</div>
+                </div>
+                <div class="gallery-item g3">
+                    <div class="g-inner">📚</div>
+                    <div class="g-label">Library</div>
+                </div>
+                <div class="gallery-item g4">
+                    <div class="g-inner">⚽</div>
+                    <div class="g-label">Sports Ground</div>
+                </div>
+                <div class="gallery-item wide g5">
+                    <div class="g-inner">🎭</div>
+                    <div class="g-label">Annual Day Celebration</div>
+                </div>
+                <div class="gallery-item g6">
+                    <div class="g-inner">🖥️</div>
+                    <div class="g-label">Computer Lab</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FACULTY -->
+    <section id="faculty">
+        <div class="section-container">
+            <div class="section-label">Our Team</div>
+            <h2 class="section-title">Meet Our Expert Faculty</h2>
+            <p class="section-sub">Our educators are passionate, highly qualified professionals dedicated to nurturing
+                every student's potential.</p>
+            <div class="faculty-grid">
+                <div class="faculty-card">
+                    <div class="faculty-avatar fa1">👨‍💼</div>
+                    <div class="faculty-info">
+                        <h4>Dr. Ramesh Kumar</h4>
+                        <div class="role">Principal</div>
+                        <div class="qual">PhD in Education | 30+ Years Experience</div>
+                    </div>
+                </div>
+                <div class="faculty-card">
+                    <div class="faculty-avatar fa2">👩‍🔬</div>
+                    <div class="faculty-info">
+                        <h4>Mrs. Amrita Mall Singh</h4>
+                        <div class="role">Head of Science</div>
+                        <div class="qual">M.Sc Chemistry | 15 Years Experience</div>
+                    </div>
+                </div>
+                <div class="faculty-card">
+                    <div class="faculty-avatar fa3">👨‍💻</div>
+                    <div class="faculty-info">
+                        <h4>Mrs. Sangeeta Maam</h4>
+                        <div class="role">Head of Mathematics</div>
+                        <div class="qual">M.Sc Mathematics | IIT Alumni</div>
+                    </div>
+                </div>
+                <div class="faculty-card">
+                    <div class="faculty-avatar fa4">👩‍🎨</div>
+                    <div class="faculty-info">
+                        <h4>Mrs. Priya Singh</h4>
+                        <div class="role">Head of Arts & Culture</div>
+                        <div class="qual">M.A Fine Arts | 15 Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+        <div class="section-container">
+            <div class="section-label">Voices of Success</div>
+            <h2 class="section-title light">What Our Students &<br>Parents Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <span class="quote-mark">"</span>
+                    <p>RBT Vidalaya gave my daughter not just knowledge, but confidence, values, and a lifelong love of
+                        learning. The teachers here are truly extraordinary.</p>
+                    <div class="testimonial-author">
+                        <div class="t-avatar">👩</div>
+                        <div class="t-name">
+                            <h5>Mrs. Geeta Sharma</h5>
+                            <span>Parent – Class XII Student</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-mark">"</span>
+                    <p>Having studied here till Class 10, I received excellent academic support from dedicated faculty,
+                        which strengthened my fundamentals and ultimately helped me secure a top rank in JEE Advanced..
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="t-avatar">👨‍🎓</div>
+                        <div class="t-name">
+                            <h5>Amandeep Singh Rathore</h5>
+                            <span>Alumni 2025 – IIT Delhi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-mark">"</span>
+                    <p>The all-round development philosophy here is unmatched. Sports, arts, academics — my son excels
+                        in everything. Best decision we made for his future.</p>
+                    <div class="testimonial-author">
+                        <div class="t-avatar">👨</div>
+                        <div class="t-name">
+                            <h5>Mr. Suresh Patil</h5>
+                            <span>Parent – Classes VIII & X</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMISSIONS -->
+    <section id="admissions">
+        <div class="section-container">
+            <div class="section-label">Join Our Family</div>
+            <h2 class="section-title">Admissions 2025–26</h2>
+            <div class="admission-grid">
+                <div>
+                    <p class="section-sub" style="margin-bottom:30px">Follow these simple steps to secure your child's
+                        place at RBT Vidalaya. Limited seats available — apply early!</p>
+                    <div class="admission-steps">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div class="step-content">
+                                <h4>Submit Inquiry Form</h4>
+                                <p>Fill the online form with your child's details and preferred class. Our team will
+                                    contact you within 24 hours.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div class="step-content">
+                                <h4>Document Verification</h4>
+                                <p>Submit previous school records, birth certificate, Aadhar, and passport-size photos
+                                    for verification.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div class="step-content">
+                                <h4>Entrance Assessment</h4>
+                                <p>A simple aptitude test and interaction session for Classes VI and above to assess
+                                    learning levels.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">4</div>
+                            <div class="step-content">
+                                <h4>Fee Payment & Enrollment</h4>
+                                <p>Complete fee payment online or at the school office and receive your enrollment
+                                    confirmation instantly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="admission-form-box">
+                    <h3>📋 Apply Now</h3>
+                    <form id="admissionForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Student's First Name *</label>
+                                <input type="text" placeholder="e.g. Aarav" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Student's Last Name *</label>
+                                <input type="text" placeholder="e.g. Sharma" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth *</label>
+                            <input type="date" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Applying for Class *</label>
+                            <select required>
+                                <option value="">— Select Class —</option>
+                                <option>Class I</option>
+                                <option>Class II</option>
+                                <option>Class III</option>
+                                <option>Class IV</option>
+                                <option>Class V</option>
+                                <option>Class VI</option>
+                                <option>Class VII</option>
+                                <option>Class VIII</option>
+                                <option>Class IX</option>
+                                <option>Class X</option>
+                                <option>Class XI – Science</option>
+                                <option>Class XI – Commerce</option>
+                                <option>Class XI – Humanities</option>
+                                <option>Class XII – Science</option>
+                                <option>Class XII – Commerce</option>
+                                <option>Class XII – Humanities</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Parent's Name *</label>
+                                <input type="text" placeholder="Father / Mother name" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Mobile Number *</label>
+                                <input type="tel" placeholder="+91 98765 43210" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" placeholder="parent@email.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Previous School (if any)</label>
+                            <input type="text" placeholder="Name of previous school" />
+                        </div>
+                        <button type="submit" class="btn-primary" style="width:100%;margin-top:4px;border:none">Submit
+                            Application</button>
+                        <div class="form-success" id="admSuccess">
+                            ✅ Application submitted successfully! Our team will contact you within 24 hours.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NOTICE BOARD -->
+    <section id="notices">
+        <div class="section-container">
+            <div class="section-label">Latest Updates</div>
+            <h2 class="section-title">Notice Board & Events</h2>
+            <div class="notices-grid">
+                <div>
+                    <div class="notice-list">
+                        <div class="notice-item">
+                            <div class="notice-date">
+                                <div class="d">15</div>
+                                <div class="m">Jan</div>
+                            </div>
+                            <div class="notice-text">
+                                <h4>Annual Sports Day 2025</h4>
+                                <p>Join us for the grand Annual Sports Day. All parents and guardians are cordially
+                                    invited to cheer for our students.</p>
+                            </div>
+                        </div>
+                        <div class="notice-item">
+                            <div class="notice-date">
+                                <div class="d">20</div>
+                                <div class="m">Feb</div>
+                            </div>
+                            <div class="notice-text">
+                                <h4>Science & Innovation Exhibition</h4>
+                                <p>Students from Classes VII–XII will present their innovative projects. Open for public
+                                    from 10 AM to 4 PM.</p>
+                            </div>
+                        </div>
+                        <div class="notice-item">
+                            <div class="notice-date">
+                                <div class="d">05</div>
+                                <div class="m">Mar</div>
+                            </div>
+                            <div class="notice-text">
+                                <h4>Parent-Teacher Meeting (PTM)</h4>
+                                <p>Quarterly PTM scheduled for all classes. Please carry your ward's report card and ID
+                                    proof.</p>
+                            </div>
+                        </div>
+                        <div class="notice-item">
+                            <div class="notice-date">
+                                <div class="d">28</div>
+                                <div class="m">Mar</div>
+                            </div>
+                            <div class="notice-text">
+                                <h4>Board Exam Preparation – Special Sessions</h4>
+                                <p>Extra revision classes for Classes X and XII starting 1st March. Time table shared
+                                    via school app.</p>
+                            </div>
+                        </div>
+                        <div class="notice-item">
+                            <div class="notice-date">
+                                <div class="d">10</div>
+                                <div class="m">Apr</div>
+                            </div>
+                            <div class="notice-text">
+                                <h4>Admission Forms Available</h4>
+                                <p>Admission forms for 2025–26 are now available online and at the school office.
+                                    Limited seats per class.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="events-box">
+                        <h3>📅 Upcoming Events</h3>
+                        <div class="event-item">
+                            <div class="event-dot"></div>
+                            <div class="event-info">
+                                <h5>Republic Day Celebration</h5>
+                                <span>26 January 2025 – School Ground</span>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-dot"></div>
+                            <div class="event-info">
+                                <h5>Inter-School Quiz Competition</h5>
+                                <span>8 February 2025 – Auditorium</span>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-dot"></div>
+                            <div class="event-info">
+                                <h5>Saraswati Puja & Cultural Fest</h5>
+                                <span>3 February 2025 – School Ground</span>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-dot"></div>
+                            <div class="event-info">
+                                <h5>Smart Lab Inauguration</h5>
+                                <span>18 February 2025 – New Block</span>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-dot"></div>
+                            <div class="event-info">
+                                <h5>National Science Day Activities</h5>
+                                <span>28 February 2025 – All Classrooms</span>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-dot"></div>
+                            <div class="event-info">
+                                <h5>Holi Celebration & Art Exhibition</h5>
+                                <span>14 March 2025 – School Campus</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="section-container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="section-label" style="color:var(--gold)">Get in Touch</div>
+                    <h2>We'd Love to<br>Hear From You</h2>
+                    <p>Have questions about admissions, programs, or anything else? Reach out to us — our team is always
+                        happy to help.</p>
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <div class="ci-icon">📍</div>
+                            <div>
+                                <h5>Address</h5>
+                                <p>RBT Vidalaya, Purwa Chauraha, Deoria ,<br>Uttar Pradesh – 274001, India</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="ci-icon">📞</div>
+                            <div>
+                                <h5>Phone</h5>
+                                <p>+91 9879005408 | +91 98765 43210</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="ci-icon">✉️</div>
+                            <div>
+                                <h5>Email</h5>
+                                <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                        data-cfemail="5a33343c351a28382e2c333e3b363b233b743f3e2f743334">[email&#160;protected]</a><br><a
+                                        href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                        data-cfemail="ccada8a1a5bfbfa5a3a2bf8cbeaeb8baa5a8ada0adb5ade2a9a8b9e2a5a2">[email&#160;protected]</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="ci-icon">🕘</div>
+                            <div>
+                                <h5>Office Hours</h5>
+                                <p>Mon – Sat: 8:00 AM – 4:00 PM<br>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-box">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Your Name *</label>
+                                <input type="text" placeholder="Full name" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" placeholder="+91 98765 43210" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" placeholder="your@email.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <select>
+                                <option>General Inquiry</option>
+                                <option>Admission Query</option>
+                                <option>Fee Structure</option>
+                                <option>Transport</option>
+                                <option>Complaint / Feedback</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Message *</label>
+                            <textarea placeholder="Write your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width:100%;border:none">Send Message
+                            ✉️</button>
+                        <div class="form-success" id="contactSuccess"
+                            style="background:rgba(255,255,255,0.1);color:#a0e0a0;border:1px solid rgba(160,224,160,0.3)">
+                            ✅ Message sent! We'll get back to you within 24 hours.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="emblem">RBT</div>
+                <h3>RBT Vidalaya</h3>
+                <p>Nurturing minds and building futures since 1995. A premier CBSE-affiliated institution committed to
+                    excellence in education and holistic student development.</p>
+                <div class="affil">CBSE Affiliated · School Code: 1234567</div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#faculty">Faculty</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#admissions">Admissions</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Academics</h4>
+                <ul>
+                    <li><a href="#programs">Science Stream</a></li>
+                    <li><a href="#programs">Commerce Stream</a></li>
+                    <li><a href="#programs">Humanities Stream</a></li>
+                    <li><a href="#programs">Primary School</a></li>
+                    <li><a href="#notices">Exam Schedule</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#notices">Notice Board</a></li>
+                    <li><a href="#admissions">Fee Structure</a></li>
+                    <li><a href="#contact">Feedback</a></li>
+                    <li><a href="#admissions">Download Forms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 RBT Vidalaya. All rights reserved. | Designed with ❤️ for education.</p>
+            <div class="social-links">
+                <a href="#" class="social-link">📘</a>
+                <a href="#" class="social-link">📸</a>
+                <a href="#" class="social-link">🐦</a>
+                <a href="#" class="social-link">▶️</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button id="back-top">↑</button>
+
+    <script>
+        // ── Smooth scroll for ALL anchor links ──
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const navH = document.getElementById('navbar').offsetHeight;
+                    const top = target.getBoundingClientRect().top + window.scrollY - navH;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                    document.getElementById('mobileMenu').classList.remove('open');
+                }
+            });
+        });
+
+        // ── Navbar scroll ──
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+            document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
+            // Active nav highlight
+            let current = '';
+            document.querySelectorAll('section[id]').forEach(s => {
+                if (window.scrollY >= s.offsetTop - navbar.offsetHeight - 10) current = s.id;
+            });
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                const active = a.getAttribute('href') === '#' + current;
+                a.style.color = active ? 'var(--gold)' : '';
+                a.style.background = active ? 'rgba(201,168,76,0.1)' : '';
+            });
+        });
+        document.getElementById('back-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ── Mobile menu ──
+        document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.add('open'));
+        document.getElementById('closeMenu').addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+
+        // ── Admission form ──
+        document.getElementById('admissionForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            btn.textContent = 'Submitting...'; btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('admSuccess').style.display = 'block';
+                this.reset(); btn.textContent = 'Submit Application'; btn.disabled = false;
+                setTimeout(() => document.getElementById('admSuccess').style.display = 'none', 6000);
+            }, 800);
+        });
+
+        // ── Contact form ──
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            btn.textContent = 'Sending...'; btn.disabled = true;
+            setTimeout(() => {
+                document.getElementById('contactSuccess').style.display = 'block';
+                this.reset(); btn.textContent = 'Send Message ✉️'; btn.disabled = false;
+                setTimeout(() => document.getElementById('contactSuccess').style.display = 'none', 6000);
+            }, 800);
+        });
+
+        // ── Scroll animations ──
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.program-card,.feature-card,.faculty-card,.notice-item,.value-item,.testimonial-card,.step').forEach((el, i) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(24px)';
+            el.style.transition = `opacity 0.5s ease ${i * 0.04}s, transform 0.5s ease ${i * 0.04}s`;
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>

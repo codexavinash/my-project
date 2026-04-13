@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SwiftPay — Digital Payments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --accent: #00E5FF;
+  --accent2: #7C3AED;
+  --accent3: #10B981;
+  --danger: #EF4444;
+  --warn: #F59E0B;
+  --bg: #080B14;
+  --bg2: #0F1320;
+  --bg3: #161D2E;
+  --bg4: #1E2740;
+  --card: #131929;
+  --card2: #1A2236;
+  --border: rgba(255,255,255,.07);
+  --border2: rgba(0,229,255,.18);
+  --text: #F0F4FF;
+  --text2: #8B96B0;
+  --text3: #5A6480;
+  --shadow: 0 8px 32px rgba(0,0,0,.5);
+  --shadow2: 0 2px 12px rgba(0,229,255,.15);
+  --glow: 0 0 40px rgba(0,229,255,.12);
+}
+[data-theme="light"] {
+  --bg: #F0F4FF;
+  --bg2: #E8EDF8;
+  --bg3: #DDE4F5;
+  --bg4: #C8D3EE;
+  --card: #FFFFFF;
+  --card2: #F5F8FF;
+  --border: rgba(0,0,0,.08);
+  --border2: rgba(124,58,237,.25);
+  --text: #0D1130;
+  --text2: #4A5375;
+  --text3: #8B96B0;
+  --shadow: 0 8px 32px rgba(0,0,0,.12);
+  --shadow2: 0 2px 12px rgba(124,58,237,.15);
+  --glow: 0 0 40px rgba(124,58,237,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;height:100%}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-height:100%;overflow-x:hidden;transition:background .3s,color .3s}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:'Sora',sans-serif;border:none;outline:none}
+input,select,textarea{font-family:'Sora',sans-serif;outline:none}
+ul{list-style:none}
+img{max-width:100%;display:block}
+
+.app-shell{max-width:420px;margin:0 auto;min-height:100vh;position:relative;background:var(--bg);overflow:hidden}
+
+.page{display:none;min-height:100vh;padding-bottom:90px;animation:fadeUp .35s ease both}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--card);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:10px 0 16px;z-index:100;backdrop-filter:blur(20px)}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 14px;border-radius:12px;cursor:pointer;transition:all .2s;background:none;border:none;color:var(--text3);font-size:.7rem;font-weight:500}
+.nav-item svg{width:22px;height:22px;transition:all .2s}
+.nav-item.active{color:var(--accent)}
+.nav-item.active svg{filter:drop-shadow(0 0 6px var(--accent))}
+.nav-item:hover{color:var(--text2)}
+
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--border)}
+.header-logo{display:flex;align-items:center;gap:8px;font-size:1.2rem;font-weight:800;letter-spacing:-.02em}
+.logo-dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#fff;font-weight:800;box-shadow:var(--shadow2)}
+.header-actions{display:flex;align-items:center;gap:10px}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--text2)}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);box-shadow:var(--shadow2)}
+.icon-btn svg{width:18px;height:18px}
+.profile-btn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#00E5FF);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;cursor:pointer;letter-spacing:.02em;box-shadow:var(--shadow2)}
+
+.balance-card{margin:16px;background:linear-gradient(135deg,#0F1F3D 0%,#161D2E 50%,#0F1F3D 100%);border:1px solid var(--border2);border-radius:20px;padding:24px;position:relative;overflow:hidden;box-shadow:var(--glow)}
+[data-theme="light"] .balance-card{background:linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%);border-color:rgba(255,255,255,.2)}
+.balance-card::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(0,229,255,.12),transparent 70%);pointer-events:none}
+.balance-card::after{content:'';position:absolute;bottom:-30px;left:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(124,58,237,.15),transparent 70%);pointer-events:none}
+.balance-label{font-size:.75rem;font-weight:500;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.balance-amount{font-size:2.2rem;font-weight:800;color:#fff;font-family:'JetBrains Mono',monospace;letter-spacing:-.03em;margin-bottom:4px}
+.balance-upi{font-size:.78rem;color:rgba(255,255,255,.45);font-family:'JetBrains Mono',monospace}
+.balance-actions{display:flex;gap:10px;margin-top:20px}
+.balance-action-btn{flex:1;padding:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:12px;color:#fff;font-size:.78rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+.balance-action-btn:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+.balance-action-btn svg{width:16px;height:16px}
+
+.section-title{font-size:.85rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;padding:0 20px;margin-bottom:14px}
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px}
+.quick-action{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .2s}
+.qa-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:all .2s;border:1px solid var(--border);background:var(--card)}
+.qa-icon svg{width:24px;height:24px}
+.quick-action:hover .qa-icon{transform:translateY(-3px);box-shadow:var(--shadow2)}
+.qa-label{font-size:.7rem;font-weight:600;color:var(--text2);text-align:center}
+.qa-send .qa-icon{background:linear-gradient(135deg,#0D1F3C,#1A3A6B);border-color:rgba(0,229,255,.2);color:var(--accent)}
+.qa-scan .qa-icon{background:linear-gradient(135deg,#1A0D3C,#3A1A6B);border-color:rgba(124,58,237,.2);color:var(--accent2)}
+.qa-recharge .qa-icon{background:linear-gradient(135deg,#0D3C1A,#1A6B3A);border-color:rgba(16,185,129,.2);color:var(--accent3)}
+.qa-bills .qa-icon{background:linear-gradient(135deg,#3C1A0D,#6B3A1A);border-color:rgba(245,158,11,.2);color:var(--warn)}
+.qa-bank .qa-icon{background:linear-gradient(135deg,#1A0D3C,#6B1A5A);border-color:rgba(236,72,153,.2);color:#EC4899}
+.qa-more .qa-icon{background:var(--card2);color:var(--text2)}
+
+.promo-banner{margin:20px 20px 8px;background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(124,58,237,.08));border:1px solid var(--border2);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden}
+.promo-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,229,255,.04),transparent);animation:shimmer 3s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.promo-icon{font-size:1.6rem;flex-shrink:0}
+.promo-text b{display:block;font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.promo-text span{font-size:.75rem;color:var(--text2)}
+.promo-badge{margin-left:auto;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:20px}
+
+.txn-list{padding:0 20px;display:flex;flex-direction:column;gap:10px}
+.txn-item{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;transition:all .2s;cursor:pointer}
+.txn-item:hover{border-color:var(--border2);transform:translateX(2px);box-shadow:var(--shadow2)}
+.txn-avatar{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.txn-info{flex:1;min-width:0}
+.txn-name{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.txn-meta{font-size:.72rem;color:var(--text3);display:flex;align-items:center;gap:6px}
+.txn-amount{text-align:right;flex-shrink:0}
+.txn-amt-val{font-size:.92rem;font-weight:700;font-family:'JetBrains Mono',monospace;display:block;margin-bottom:3px}
+.txn-amt-val.debit{color:var(--danger)}
+.txn-amt-val.credit{color:var(--accent3)}
+.txn-status{font-size:.65rem;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block}
+.status-success{background:rgba(16,185,129,.15);color:var(--accent3)}
+.status-pending{background:rgba(245,158,11,.15);color:var(--warn)}
+.status-failed{background:rgba(239,68,68,.15);color:var(--danger)}
+
+.page-header{padding:20px 20px 0;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-btn{width:38px;height:38px;border-radius:12px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);cursor:pointer;transition:all .2s;flex-shrink:0}
+.back-btn:hover{border-color:var(--accent);color:var(--accent)}
+.back-btn svg{width:18px;height:18px}
+.page-title{font-size:1.1rem;font-weight:700;color:var(--text)}
+.page-subtitle{font-size:.78rem;color:var(--text2);margin-top:2px}
+
+.send-recipient-input{margin:0 20px 16px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;transition:all .2s}
+.send-recipient-input:focus-within{border-color:var(--accent);box-shadow:var(--shadow2)}
+.send-recipient-input svg{width:20px;height:20px;color:var(--text3);flex-shrink:0}
+.send-recipient-input input{flex:1;background:none;border:none;color:var(--text);font-size:.92rem;font-weight:500}
+.send-recipient-input input::placeholder{color:var(--text3)}
+
+.amount-display{margin:0 20px 24px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 20px;position:relative;overflow:hidden}
+.amount-display::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,255,.06),transparent 70%);top:-60px;left:50%;transform:translateX(-50%);pointer-events:none}
+.amount-currency{font-size:1.2rem;color:var(--text3);font-weight:600;margin-bottom:4px}
+.amount-input-display{font-size:3rem;font-weight:800;color:var(--text);font-family:'JetBrains Mono',monospace;letter-spacing:-.04em;min-height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.amount-input-display.placeholder{color:var(--text3)}
+.amount-note{font-size:.78rem;color:var(--text3);margin-top:8px}
+
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 20px;margin-bottom:16px}
+.num-key{padding:16px;background:var(--card);border:1px solid var(--border);border-radius:14px;text-align:center;font-size:1.2rem;font-weight:600;color:var(--text);cursor:pointer;transition:all .15s;font-family:'JetBrains Mono',monospace}
+.num-key:hover{background:var(--card2);border-color:var(--border2);transform:scale(.97)}
+.num-key:active{transform:scale(.93);background:var(--bg4)}
+.num-key.del{font-size:1rem;color:var(--text2)}
+
+.send-btn{margin:0 20px;width:calc(100% - 40px);padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px;color:#fff;font-size:1rem;font-weight:700;transition:all .25s;letter-spacing:.01em;box-shadow:0 4px 20px rgba(0,229,255,.25)}
+.send-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,229,255,.35)}
+.send-btn:active{transform:translateY(0)}
+.send-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.recent-contacts{padding:0 20px;margin-top:20px}
+.contacts-row{display:flex;gap:14px;overflow-x:auto;padding-bottom:4px}
+.contacts-row::-webkit-scrollbar{display:none}
+.contact-chip{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
+.contact-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:#fff;border:2px solid var(--border);transition:all .2s}
+.contact-chip:hover .contact-avatar{border-color:var(--accent);transform:scale(1.05)}
+.contact-name{font-size:.68rem;color:var(--text2);text-align:center;max-width:52px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.success-overlay{position:fixed;inset:0;z-index:999;background:rgba(8,11,20,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;opacity:0;pointer-events:none;transition:opacity .3s}
+.success-overlay.show{opacity:1;pointer-events:all}
+.success-circle{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),rgba(16,185,129,.6));display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:24px;animation:successPop .5s .1s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 0 60px rgba(16,185,129,.4)}
+@keyframes successPop{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.success-title{font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:8px}
+.success-sub{font-size:.9rem;color:var(--text2);margin-bottom:6px}
+.success-amount{font-size:2rem;font-weight:800;color:var(--accent3);font-family:'JetBrains Mono',monospace;margin-bottom:8px}
+.success-to{font-size:.85rem;color:var(--text3);margin-bottom:32px}
+.success-txn-id{font-size:.72rem;color:var(--text3);font-family:'JetBrains Mono',monospace;background:var(--card);border:1px solid var(--border);padding:8px 16px;border-radius:20px;margin-bottom:24px}
+.success-close{width:100%;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:14px;color:var(--text);font-size:.95rem;font-weight:600;transition:all .2s}
+.success-close:hover{border-color:var(--accent);color:var(--accent)}
+
+.scan-viewport{margin:0 20px;border-radius:20px;overflow:hidden;position:relative;background:#000;aspect-ratio:1}
+.scan-corners{position:absolute;inset:20px;pointer-events:none}
+.scan-corner{position:absolute;width:24px;height:24px;border:3px solid var(--accent)}
+.sc-tl{top:0;left:0;border-right:none;border-bottom:none;border-radius:4px 0 0 0}
+.sc-tr{top:0;right:0;border-left:none;border-bottom:none;border-radius:0 4px 0 0}
+.sc-bl{bottom:0;left:0;border-right:none;border-top:none;border-radius:0 0 0 4px}
+.sc-br{bottom:0;right:0;border-left:none;border-top:none;border-radius:0 0 4px 0}
+.scan-line{position:absolute;left:20px;right:20px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);top:20px;animation:scanMove 2.5s ease-in-out infinite;box-shadow:0 0 10px var(--accent)}
+@keyframes scanMove{0%{top:20px}50%{top:calc(100% - 20px)}100%{top:20px}}
+.scan-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--card)}
+.scan-placeholder svg{width:48px;height:48px;color:var(--text3);opacity:.4}
+.scan-placeholder p{font-size:.8rem;color:var(--text3)}
+.scan-hint{text-align:center;margin:14px 0;font-size:.82rem;color:var(--text2)}
+.or-divider{display:flex;align-items:center;gap:12px;margin:16px 20px}
+.or-divider span{flex:1;height:1px;background:var(--border)}
+.or-divider b{font-size:.75rem;color:var(--text3);font-weight:600}
+.upi-input-wrap{margin:0 20px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;gap:10px;align-items:center}
+.upi-input-wrap:focus-within{border-color:var(--accent);box-shadow:var(--shadow2)}
+.upi-input-wrap input{flex:1;background:none;border:none;color:var(--text);font-size:.88rem}
+.upi-input-wrap input::placeholder{color:var(--text3)}
+.upi-verify-btn{padding:8px 14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;color:#fff;font-size:.78rem;font-weight:700;transition:all .2s}
+.upi-verify-btn:hover{opacity:.88;transform:scale(.97)}
+
+.service-tabs{display:flex;gap:8px;padding:0 20px;margin-bottom:20px;overflow-x:auto}
+.service-tabs::-webkit-scrollbar{display:none}
+.service-tab{padding:8px 16px;border-radius:20px;font-size:.8rem;font-weight:600;border:1px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.service-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.recharge-form{padding:0 20px;display:flex;flex-direction:column;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:.78rem;font-weight:600;color:var(--text2);padding-left:2px}
+.form-input{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;color:var(--text);font-size:.92rem;transition:all .2s}
+.form-input:focus{border-color:var(--accent);box-shadow:var(--shadow2)}
+.form-input::placeholder{color:var(--text3)}
+.form-input option{background:var(--card);color:var(--text)}
+.plan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px}
+.plan-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s}
+.plan-card:hover,.plan-card.selected{border-color:var(--accent);background:rgba(0,229,255,.05);box-shadow:var(--shadow2)}
+.plan-price{font-size:1.1rem;font-weight:800;color:var(--text);font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.plan-data{font-size:.75rem;color:var(--accent3);font-weight:600;margin-bottom:2px}
+.plan-validity{font-size:.7rem;color:var(--text3)}
+.pay-btn{padding:15px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.95rem;font-weight:700;transition:all .25s;box-shadow:0 4px 20px rgba(0,229,255,.25)}
+.pay-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,229,255,.35)}
+.pay-btn:active{transform:translateY(0)}
+
+.history-filter{display:flex;gap:8px;padding:0 20px;margin-bottom:16px;overflow-x:auto}
+.history-filter::-webkit-scrollbar{display:none}
+.filter-chip{padding:7px 14px;border-radius:20px;font-size:.75rem;font-weight:600;border:1px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.filter-chip.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.txn-date-header{padding:6px 20px;margin-bottom:6px;font-size:.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.empty-state{text-align:center;padding:60px 20px}
+.empty-icon{font-size:3rem;margin-bottom:14px;opacity:.5}
+.empty-text{font-size:.9rem;color:var(--text3)}
+
+.profile-hero{margin:0 20px 20px;background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(0,229,255,.08));border:1px solid var(--border2);border-radius:20px;padding:24px;text-align:center}
+.profile-avatar-lg{width:72px;height:72px;border-radius:24px;margin:0 auto 12px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;color:#fff;box-shadow:0 8px 24px rgba(124,58,237,.35)}
+.profile-name{font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.profile-upi{font-size:.8rem;color:var(--text2);font-family:'JetBrains Mono',monospace}
+.profile-stats{display:flex;justify-content:center;gap:24px;margin-top:16px}
+.p-stat span{display:block;font-size:1.1rem;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--text)}
+.p-stat small{font-size:.72rem;color:var(--text3)}
+.p-stat-div{width:1px;background:var(--border)}
+
+.settings-group{padding:0 20px;margin-bottom:20px}
+.settings-group-title{font-size:.72rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.settings-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;cursor:pointer;transition:all .2s}
+.settings-item:hover{border-color:var(--border2);box-shadow:var(--shadow2)}
+.si-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.si-info{flex:1}
+.si-info b{display:block;font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:1px}
+.si-info small{font-size:.72rem;color:var(--text3)}
+.si-arrow{color:var(--text3)}
+.si-arrow svg{width:16px;height:16px}
+
+.toggle-wrap{display:flex;align-items:center;gap:8px}
+.toggle{width:44px;height:24px;border-radius:12px;background:var(--bg4);border:1px solid var(--border);position:relative;cursor:pointer;transition:all .25s;flex-shrink:0}
+.toggle.on{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:2px;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.toggle.on::after{left:22px}
+
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card2);border:1px solid var(--border2);border-radius:20px;padding:10px 20px;font-size:.82rem;font-weight:600;color:var(--text);box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;z-index:500}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.section-gap{height:20px}
+.section-header-row{display:flex;align-items:center;justify-content:space-between;padding:0 20px;margin-bottom:14px}
+.see-all{font-size:.78rem;font-weight:600;color:var(--accent);cursor:pointer}
+
+.greeting-row{padding:14px 20px 8px;display:flex;align-items:center;justify-content:space-between}
+.greeting-text small{display:block;font-size:.75rem;color:var(--text3);margin-bottom:2px}
+.greeting-text b{font-size:1.05rem;font-weight:700;color:var(--text)}
+.greeting-badge{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);border-radius:20px;padding:5px 12px;display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;color:var(--accent3)}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.spinner{width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(min-width:421px){.app-shell{box-shadow:0 0 80px rgba(0,0,0,.5);border-left:1px solid var(--border);border-right:1px solid var(--border)}}
+@media(max-width:380px){.quick-actions{grid-template-columns:repeat(4,1fr);gap:8px}.qa-icon{width:46px;height:46px}}
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-item active" data-page="home" onclick="navigate('home')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Home
+    </button>
+    <button class="nav-item" data-page="history" onclick="navigate('history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      History
+    </button>
+    <button class="nav-item" data-page="scan" onclick="navigate('scan')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="15" y="15" width="2" height="2"/><rect x="19" y="15" width="2" height="2"/><rect x="15" y="19" width="2" height="2"/><rect x="19" y="19" width="2" height="2"/></svg>
+      Scan
+    </button>
+    <button class="nav-item" data-page="profile" onclick="navigate('profile')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      Profile
+    </button>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page active">
+    <header class="app-header">
+      <div class="header-logo">
+        <div class="logo-dot">S</div>
+        <span>Swift<b>Pay</b></span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="navigate('history')" title="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+        <div class="profile-btn" onclick="navigate('profile')">AK</div>
+      </div>
+    </header>
+    <div class="greeting-row">
+      <div class="greeting-text">
+        <small id="greetingTime">Good morning</small>
+        <b>Avinash Kumar 👋</b>
+      </div>
+      <div class="greeting-badge"><span class="badge-dot"></span>UPI Active</div>
+    </div>
+    <div class="balance-card">
+      <div class="balance-label">Total Balance</div>
+      <div class="balance-amount" id="homeBalance">₹0.00</div>
+      <div class="balance-upi">avinash@swiftpay</div>
+      <div class="balance-actions">
+        <button class="balance-action-btn" onclick="navigate('send')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+          Add Money
+        </button>
+        <button class="balance-action-btn" onclick="navigate('history')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          Statement
+        </button>
+      </div>
+    </div>
+    <div class="section-gap"></div>
+    <p class="section-title">Quick Actions</p>
+    <div class="quick-actions">
+      <div class="quick-action qa-send" onclick="navigate('send')">
+        <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>
+        <span class="qa-label">Send Money</span>
+      </div>
+      <div class="quick-action qa-scan" onclick="navigate('scan')">
+        <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="15" y="15" width="2" height="2"/><rect x="19" y="19" width="2" height="2"/></svg></div>
+        <span class="qa-label">Scan & Pay</span>
+      </div>
+      <div class="quick-action qa-recharge" onclick="navigate('recharge')">
+        <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/><path d="M9 6h6"/></svg></div>
+        <span class="qa-label">Recharge</span>
+      </div>
+      <div class="quick-action qa-bills" onclick="navigate('bills')">
+        <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+        <span class="qa-label">Pay Bills</span>
+      </div>
+      <div class="quick-action qa-bank" onclick="navigate('send')">
+        <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v4M10 14h4"/></svg></div>
+        <span class="qa-label">Bank Transfer</span>
+      </div>
+      <div class="quick-action qa-more">
+        <div class="qa-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></div>
+        <span class="qa-label">More</span>
+      </div>
+    </div>
+    <div class="promo-banner">
+      <div class="promo-icon">🎉</div>
+      <div class="promo-text"><b>Cashback Offer!</b><span>Get ₹50 on your next bill payment</span></div>
+      <div class="promo-badge">Claim</div>
+    </div>
+    <div class="section-gap"></div>
+    <div class="section-header-row">
+      <p class="section-title" style="padding:0;margin:0">Recent Activity</p>
+      <span class="see-all" onclick="navigate('history')">See All →</span>
+    </div>
+    <div class="txn-list" id="homeTxnList">
+      <div class="empty-state"><div class="empty-icon">💸</div><div class="empty-text">No transactions yet. Make your first payment!</div></div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- SEND MONEY PAGE -->
+  <div id="page-send" class="page">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+      <div><div class="page-title">Send Money</div><div class="page-subtitle">Instant UPI Transfer</div></div>
+    </div>
+    <div class="recent-contacts">
+      <p class="section-title" style="padding:0;margin-bottom:12px">Recent Contacts</p>
+      <div class="contacts-row" id="contactsRow"></div>
+    </div>
+    <div class="section-gap"></div>
+    <div class="send-recipient-input">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <input type="text" id="recipientInput" placeholder="Name, UPI ID or Phone" oninput="updateSendBtn()"/>
+    </div>
+    <div class="amount-display">
+      <div class="amount-currency">₹ Indian Rupee</div>
+      <div class="amount-input-display placeholder" id="amountDisplay">0</div>
+      <div class="amount-note" id="amountNote">Enter amount to send</div>
+    </div>
+    <div class="numpad">
+      <button class="num-key" onclick="numPad('1')">1</button>
+      <button class="num-key" onclick="numPad('2')">2</button>
+      <button class="num-key" onclick="numPad('3')">3</button>
+      <button class="num-key" onclick="numPad('4')">4</button>
+      <button class="num-key" onclick="numPad('5')">5</button>
+      <button class="num-key" onclick="numPad('6')">6</button>
+      <button class="num-key" onclick="numPad('7')">7</button>
+      <button class="num-key" onclick="numPad('8')">8</button>
+      <button class="num-key" onclick="numPad('9')">9</button>
+      <button class="num-key" onclick="numPad('.')">.</button>
+      <button class="num-key" onclick="numPad('0')">0</button>
+      <button class="num-key del" onclick="numPad('del')">⌫</button>
+    </div>
+    <button class="send-btn" id="sendBtn" onclick="processSend()" disabled>Send Money</button>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- SCAN PAGE -->
+  <div id="page-scan" class="page">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+      <div><div class="page-title">Scan & Pay</div><div class="page-subtitle">Scan QR code to pay instantly</div></div>
+    </div>
+    <div class="scan-viewport">
+      <div class="scan-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="15" y="15" width="2" height="2"/><rect x="19" y="19" width="2" height="2"/></svg>
+        <p>Camera permission required</p>
+        <p style="font-size:.7rem">Tap to simulate QR scan</p>
+      </div>
+      <div class="scan-corners">
+        <div class="scan-corner sc-tl"></div><div class="scan-corner sc-tr"></div>
+        <div class="scan-corner sc-bl"></div><div class="scan-corner sc-br"></div>
+      </div>
+      <div class="scan-line"></div>
+    </div>
+    <p class="scan-hint">Hold your camera steady over the QR code</p>
+    <div style="padding:0 20px;display:flex;gap:10px">
+      <button class="pay-btn" style="flex:1;padding:12px" onclick="simulateScan()">📷 Simulate Scan</button>
+      <button class="pay-btn" style="flex:1;padding:12px;background:var(--card);border:1px solid var(--border);color:var(--text2)" onclick="showToast('Gallery coming soon 🖼️')">🖼️ Gallery</button>
+    </div>
+    <div class="or-divider"><span></span><b>OR ENTER UPI ID</b><span></span></div>
+    <div class="upi-input-wrap">
+      <input type="text" id="upiInput" placeholder="example@upi"/>
+      <button class="upi-verify-btn" onclick="verifyUPI()">Verify</button>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- RECHARGE PAGE -->
+  <div id="page-recharge" class="page">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+      <div><div class="page-title">Mobile Recharge</div><div class="page-subtitle">Prepaid &amp; Postpaid</div></div>
+    </div>
+    <div class="service-tabs">
+      <button class="service-tab active" onclick="switchRechTab(this,'prepaid')">Prepaid</button>
+      <button class="service-tab" onclick="switchRechTab(this,'postpaid')">Postpaid</button>
+    </div>
+    <div class="recharge-form">
+      <div class="form-group">
+        <label class="form-label">Mobile Number</label>
+        <input type="tel" class="form-input" id="rechargeNum" placeholder="Enter 10-digit number" maxlength="10"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Operator</label>
+        <select class="form-input" id="rechargeOp">
+          <option value="">Select Operator</option>
+          <option>Jio</option><option>Airtel</option><option>Vi (Vodafone Idea)</option><option>BSNL</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Select Plan</label>
+        <div class="plan-grid" id="planGrid">
+          <div class="plan-card" onclick="selectPlan(this,'119')"><div class="plan-price">₹119</div><div class="plan-data">1.5 GB/day</div><div class="plan-validity">28 days</div></div>
+          <div class="plan-card" onclick="selectPlan(this,'179')"><div class="plan-price">₹179</div><div class="plan-data">2 GB/day</div><div class="plan-validity">28 days</div></div>
+          <div class="plan-card" onclick="selectPlan(this,'239')"><div class="plan-price">₹239</div><div class="plan-data">2 GB/day</div><div class="plan-validity">56 days</div></div>
+          <div class="plan-card" onclick="selectPlan(this,'299')"><div class="plan-price">₹299</div><div class="plan-data">2.5 GB/day</div><div class="plan-validity">84 days</div></div>
+        </div>
+      </div>
+      <button class="pay-btn" id="rechargeBtn" onclick="processRecharge()">Proceed to Pay</button>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- BILLS PAGE -->
+  <div id="page-bills" class="page">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+      <div><div class="page-title">Pay Bills</div><div class="page-subtitle">Electricity, Water, DTH &amp; more</div></div>
+    </div>
+    <div class="service-tabs">
+      <button class="service-tab active" onclick="switchBillTab(this,'electricity')">Electricity</button>
+      <button class="service-tab" onclick="switchBillTab(this,'dth')">DTH</button>
+      <button class="service-tab" onclick="switchBillTab(this,'water')">Water</button>
+      <button class="service-tab" onclick="switchBillTab(this,'gas')">Gas</button>
+    </div>
+    <div id="bill-electricity" class="recharge-form">
+      <div class="form-group">
+        <label class="form-label">Electricity Board</label>
+        <select class="form-input">
+          <option>Select Board</option><option>PSPCL (Punjab)</option><option>MSEDCL (Maharashtra)</option><option>BESCOM (Karnataka)</option><option>TPDDL (Delhi)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Consumer Number</label>
+        <input type="text" class="form-input" id="billConsumer" placeholder="Enter consumer number"/>
+      </div>
+      <div class="form-group" id="billFetched" style="display:none">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:.8rem;color:var(--text2)">Bill Amount</span><span style="font-size:.88rem;font-weight:700;color:var(--warn);font-family:'JetBrains Mono',monospace">₹<span id="billAmount">1,248</span></span></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:.8rem;color:var(--text2)">Due Date</span><span style="font-size:.82rem;font-weight:600;color:var(--danger)">25 Mar 2025</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="font-size:.8rem;color:var(--text2)">Consumer Name</span><span style="font-size:.82rem;font-weight:600;color:var(--text)">Avinash Kumar</span></div>
+        </div>
+      </div>
+      <button class="pay-btn" id="fetchBillBtn" onclick="fetchBill()">Fetch Bill</button>
+      <button class="pay-btn" id="payBillBtn" style="display:none" onclick="processRecharge('Electricity Bill')">Pay Now</button>
+    </div>
+    <div id="bill-dth" class="recharge-form" style="display:none">
+      <div class="form-group"><label class="form-label">DTH Operator</label><select class="form-input"><option>Select Operator</option><option>Tata Sky</option><option>Airtel DTH</option><option>Dish TV</option><option>Sun Direct</option></select></div>
+      <div class="form-group"><label class="form-label">Subscriber ID</label><input type="text" class="form-input" placeholder="Enter subscriber ID"/></div>
+      <div class="form-group"><label class="form-label">Recharge Amount (₹)</label><input type="number" class="form-input" id="dthAmt" placeholder="Enter amount"/></div>
+      <button class="pay-btn" onclick="processRecharge('DTH Recharge')">Recharge DTH</button>
+    </div>
+    <div id="bill-water" class="recharge-form" style="display:none">
+      <div class="form-group"><label class="form-label">Water Board</label><select class="form-input"><option>Select Board</option><option>BWSSB</option><option>Delhi Jal Board</option><option>Mumbai Water</option></select></div>
+      <div class="form-group"><label class="form-label">Connection ID</label><input type="text" class="form-input" placeholder="Enter connection ID"/></div>
+      <button class="pay-btn" onclick="processRecharge('Water Bill')">Fetch &amp; Pay</button>
+    </div>
+    <div id="bill-gas" class="recharge-form" style="display:none">
+      <div class="form-group"><label class="form-label">Gas Provider</label><select class="form-input"><option>Select Provider</option><option>Indane</option><option>HP Gas</option><option>Bharat Gas</option></select></div>
+      <div class="form-group"><label class="form-label">Consumer ID</label><input type="text" class="form-input" placeholder="Enter consumer ID"/></div>
+      <button class="pay-btn" onclick="processRecharge('Gas Bill')">Book &amp; Pay</button>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- HISTORY PAGE -->
+  <div id="page-history" class="page">
+    <div class="page-header">
+      <button class="back-btn" onclick="navigate('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+      <div><div class="page-title">Transactions</div><div class="page-subtitle">Your payment history</div></div>
+    </div>
+    <div class="history-filter">
+      <button class="filter-chip active" onclick="filterTxn(this,'all')">All</button>
+      <button class="filter-chip" onclick="filterTxn(this,'sent')">Sent</button>
+      <button class="filter-chip" onclick="filterTxn(this,'received')">Received</button>
+      <button class="filter-chip" onclick="filterTxn(this,'recharge')">Recharge</button>
+      <button class="filter-chip" onclick="filterTxn(this,'bills')">Bills</button>
+    </div>
+    <div id="historyList"></div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="page-profile" class="page">
+    <header class="app-header">
+      <div class="header-logo"><div class="logo-dot">S</div><span>Swift<b>Pay</b></span></div>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="showToast('SwiftPay — Share link copied! 🔗')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="profile-hero">
+      <div class="profile-avatar-lg">AK</div>
+      <div class="profile-name">Avinash Kumar</div>
+      <div class="profile-upi">avinash@swiftpay</div>
+      <div class="profile-stats">
+        <div class="p-stat"><span id="totalSent">₹0</span><small>Total Sent</small></div>
+        <div class="p-stat-div"></div>
+        <div class="p-stat"><span id="txnCount">0</span><small>Transactions</small></div>
+        <div class="p-stat-div"></div>
+        <div class="p-stat"><span id="savingsAmt">₹0</span><small>Cashback</small></div>
+      </div>
+    </div>
+    <div class="settings-group">
+      <div class="settings-group-title">Preferences</div>
+      <div class="settings-item">
+        <div class="si-icon" style="background:rgba(0,229,255,.1)">🌙</div>
+        <div class="si-info"><b>Dark Mode</b><small>Switch app appearance</small></div>
+        <div class="toggle-wrap"><div class="toggle on" id="darkToggle" onclick="toggleTheme()"></div></div>
+      </div>
+      <div class="settings-item">
+        <div class="si-icon" style="background:rgba(16,185,129,.1)">🔔</div>
+        <div class="si-info"><b>Notifications</b><small>Payment alerts &amp; offers</small></div>
+        <div class="toggle-wrap"><div class="toggle on" id="notifToggle" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+      <div class="settings-item">
+        <div class="si-icon" style="background:rgba(245,158,11,.1)">🔒</div>
+        <div class="si-info"><b>Biometric Lock</b><small>Fingerprint / Face ID</small></div>
+        <div class="toggle-wrap"><div class="toggle" id="bioToggle" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+    </div>
+    <div class="settings-group">
+      <div class="settings-group-title">Account</div>
+      <div class="settings-item" onclick="showToast('Bank account linked ✓')">
+        <div class="si-icon" style="background:rgba(124,58,237,.1)">🏦</div>
+        <div class="si-info"><b>Linked Bank Account</b><small>SBI ••••5678 — Primary</small></div>
+        <div class="si-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="settings-item" onclick="showToast('Manage your UPI IDs')">
+        <div class="si-icon" style="background:rgba(236,72,153,.1)">💳</div>
+        <div class="si-info"><b>UPI IDs</b><small>avinash@swiftpay</small></div>
+        <div class="si-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="settings-item" onclick="clearHistory()">
+        <div class="si-icon" style="background:rgba(239,68,68,.1)">🗑️</div>
+        <div class="si-info"><b>Clear History</b><small>Delete all transaction records</small></div>
+        <div class="si-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+    </div>
+    <div class="settings-group">
+      <div class="settings-group-title">App Info</div>
+      <div class="settings-item">
+        <div class="si-icon" style="background:rgba(0,229,255,.1)">ℹ️</div>
+        <div class="si-info"><b>App Version</b><small>SwiftPay v2.4.1 — Latest</small></div>
+      </div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- SUCCESS OVERLAY -->
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-circle">✓</div>
+    <div class="success-title">Payment Successful!</div>
+    <div class="success-sub">You sent</div>
+    <div class="success-amount" id="successAmount">₹0</div>
+    <div class="success-to" id="successTo">to —</div>
+    <div class="success-txn-id" id="successTxnId">TXN#00000000</div>
+    <button class="success-close" onclick="closeSuccess()">Back to Home</button>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toastEl"></div>
+
+</div>
+
+<script>
+'use strict';
+
+let currentPage = 'home';
+let amountStr = '';
+let selectedPlanAmt = 0;
+let darkMode = true;
+let currentFilter = 'all';
+
+const CONTACTS = [
+  { name:'Rahul Sharma', upi:'rahul@upi', color:'#7C3AED', initials:'RS' },
+  { name:'Priya Singh', upi:'priya@upi', color:'#EC4899', initials:'PS' },
+  { name:'Mohit Verma', upi:'mohit@upi', color:'#F59E0B', initials:'MV' },
+  { name:'Ananya Das', upi:'ananya@upi', color:'#10B981', initials:'AD' },
+  { name:'Karan Mehta', upi:'karan@upi', color:'#00E5FF', initials:'KM' },
+];
+
+function getTxns() { return JSON.parse(localStorage.getItem('swiftpay_txns') || '[]'); }
+function saveTxns(arr) { localStorage.setItem('swiftpay_txns', JSON.stringify(arr)); }
+function getBalance() { return parseFloat(localStorage.getItem('swiftpay_balance') || '24850.75'); }
+function saveBalance(n) { localStorage.setItem('swiftpay_balance', n.toFixed(2)); }
+
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (!target) { showToast('Coming soon! 🚧'); return; }
+  target.classList.add('active');
+  currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === page));
+  window.scrollTo(0, 0);
+  if (page === 'home') refreshHome();
+  if (page === 'history') renderHistory();
+  if (page === 'send') initSendPage();
+  if (page === 'profile') refreshProfile();
+}
+
+function updateGreeting() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const el = document.getElementById('greetingTime');
+  if (el) el.textContent = greet;
+}
+
+function refreshHome() {
+  updateGreeting();
+  const bal = getBalance();
+  const el = document.getElementById('homeBalance');
+  if (el) el.textContent = '₹' + bal.toLocaleString('en-IN', { minimumFractionDigits:2, maximumFractionDigits:2 });
+  renderHomeTxns();
+}
+
+function renderHomeTxns() {
+  const list = document.getElementById('homeTxnList');
+  if (!list) return;
+  const txns = getTxns().slice(0, 4);
+  if (!txns.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">💸</div><div class="empty-text">No transactions yet. Make your first payment!</div></div>`;
+    return;
+  }
+  list.innerHTML = txns.map(t => txnCard(t)).join('');
+}
+
+function txnCard(t) {
+  const isDebit = t.type === 'debit';
+  const amtClass = isDebit ? 'debit' : 'credit';
+  const amtSign = isDebit ? '−' : '+';
+  const statusClass = t.status === 'Success' ? 'status-success' : t.status === 'Pending' ? 'status-pending' : 'status-failed';
+  const col = t.color || '#7C3AED';
+  return `<div class="txn-item">
+    <div class="txn-avatar" style="background:${col}20;color:${col};border:1px solid ${col}30">${t.initials || t.name.slice(0,2).toUpperCase()}</div>
+    <div class="txn-info">
+      <div class="txn-name">${t.name}</div>
+      <div class="txn-meta"><span>${t.category||'Transfer'}</span><span>•</span><span>${t.date}</span></div>
+    </div>
+    <div class="txn-amount">
+      <span class="txn-amt-val ${amtClass}">${amtSign}₹${parseFloat(t.amount).toLocaleString('en-IN')}</span>
+      <span class="txn-status ${statusClass}">${t.status}</span>
+    </div>
+  </div>`;
+}
+
+function initSendPage() {
+  amountStr = '';
+  updateAmountDisplay();
+  document.getElementById('recipientInput').value = '';
+  document.getElementById('sendBtn').disabled = true;
+  const row = document.getElementById('contactsRow');
+  if (row) {
+    row.innerHTML = CONTACTS.map(c => `
+      <div class="contact-chip" onclick="selectContact('${c.name}','${c.upi}')">
+        <div class="contact-avatar" style="background:${c.color}20;color:${c.color};border-color:${c.color}30">${c.initials}</div>
+        <span class="contact-name">${c.name.split(' ')[0]}</span>
+      </div>`).join('');
+  }
+}
+
+function selectContact(name, upi) {
+  document.getElementById('recipientInput').value = name + ' · ' + upi;
+  updateSendBtn();
+  showToast('Selected: ' + name);
+}
+
+function numPad(key) {
+  if (key === 'del') { amountStr = amountStr.slice(0, -1); }
+  else if (key === '.' && amountStr.includes('.')) { return; }
+  else if (amountStr.length >= 8) { return; }
+  else { if (key === '0' && amountStr === '') return; amountStr += key; }
+  updateAmountDisplay();
+  updateSendBtn();
+}
+
+function updateAmountDisplay() {
+  const el = document.getElementById('amountDisplay');
+  const note = document.getElementById('amountNote');
+  if (!el) return;
+  const val = parseFloat(amountStr) || 0;
+  if (!amountStr || val === 0) {
+    el.textContent = '0'; el.classList.add('placeholder');
+    if (note) note.textContent = 'Enter amount to send';
+  } else {
+    el.textContent = amountStr; el.classList.remove('placeholder');
+    if (note) note.textContent = val >= 100 ? '✓ Valid amount' : 'Minimum ₹100 recommended';
+  }
+}
+
+function updateSendBtn() {
+  const btn = document.getElementById('sendBtn');
+  const rec = document.getElementById('recipientInput').value.trim();
+  const amt = parseFloat(amountStr) || 0;
+  if (btn) btn.disabled = !(rec && amt > 0);
+}
+
+function processSend() {
+  const rec = document.getElementById('recipientInput').value.trim();
+  const amt = parseFloat(amountStr) || 0;
+  if (!rec || amt <= 0) return;
+  const btn = document.getElementById('sendBtn');
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.innerHTML = 'Send Money';
+    const bal = getBalance();
+    if (amt > bal) { showToast('Insufficient balance! ❌'); btn.disabled = false; return; }
+    saveBalance(bal - amt);
+    const txn = {
+      id: 'TXN' + Date.now(),
+      name: rec.split(' · ')[0] || rec,
+      amount: amt, type: 'debit', category: 'Transfer', status: 'Success',
+      date: formatDate(new Date()),
+      color: CONTACTS.find(c => rec.includes(c.name))?.color || '#7C3AED',
+      initials: rec.slice(0, 2).toUpperCase(),
+    };
+    const txns = getTxns(); txns.unshift(txn); saveTxns(txns);
+    showSuccess(amt, txn.name, txn.id);
+  }, 1800);
+}
+
+function showSuccess(amt, name, txnId) {
+  document.getElementById('successAmount').textContent = '₹' + parseFloat(amt).toLocaleString('en-IN');
+  document.getElementById('successTo').textContent = 'to ' + name;
+  document.getElementById('successTxnId').textContent = txnId;
+  document.getElementById('successOverlay').classList.add('show');
+}
+
+function closeSuccess() {
+  document.getElementById('successOverlay').classList.remove('show');
+  navigate('home');
+}
+
+function simulateScan() {
+  const ids = ['merchant@upi','shop123@ok','store@paytm','cafe@upi'];
+  const picked = ids[Math.floor(Math.random() * ids.length)];
+  document.getElementById('upiInput').value = picked;
+  showToast('QR Scanned: ' + picked + ' ✓');
+}
+
+function verifyUPI() {
+  const val = document.getElementById('upiInput').value.trim();
+  if (!val || !val.includes('@')) { showToast('Enter a valid UPI ID'); return; }
+  showToast('UPI verified: ' + val + ' ✓');
+  setTimeout(() => { document.getElementById('recipientInput').value = val; navigate('send'); }, 900);
+}
+
+function switchRechTab(el, type) {
+  document.querySelectorAll('#page-recharge .service-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function selectPlan(el, price) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPlanAmt = parseInt(price);
+  showToast('Plan selected: ₹' + price);
+}
+
+function processRecharge(label) {
+  const num = document.getElementById('rechargeNum')?.value.trim();
+  const op = document.getElementById('rechargeOp')?.value;
+  if (currentPage === 'recharge') {
+    if (!num) { showToast('Enter mobile number'); return; }
+    if (num.length !== 10) { showToast('Enter valid 10-digit number'); return; }
+    if (!op) { showToast('Select operator'); return; }
+    if (!selectedPlanAmt) { showToast('Select a plan'); return; }
+  }
+  const amt = selectedPlanAmt || parseInt(document.getElementById('dthAmt')?.value || 0) || 248;
+  const bal = getBalance();
+  if (amt > bal) { showToast('Insufficient balance! ❌'); return; }
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.innerHTML = '<span class="spinner"></span> Processing…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = orig; btn.disabled = false;
+    saveBalance(bal - amt);
+    const txn = {
+      id: 'TXN' + Date.now(),
+      name: label || (op + ' Recharge: ' + num),
+      amount: amt, type: 'debit',
+      category: label ? 'Bill Payment' : 'Recharge',
+      status: 'Success', date: formatDate(new Date()),
+      color: '#10B981', initials: label ? '💡' : '📱',
+    };
+    const txns = getTxns(); txns.unshift(txn); saveTxns(txns);
+    showSuccess(amt, txn.name, txn.id);
+    selectedPlanAmt = 0;
+    document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  }, 2000);
+}
+
+function switchBillTab(el, type) {
+  document.querySelectorAll('#page-bills .service-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['electricity','dth','water','gas'].forEach(b => {
+    const d = document.getElementById('bill-' + b);
+    if (d) d.style.display = b === type ? 'flex' : 'none';
+  });
+}
+
+function fetchBill() {
+  const con = document.getElementById('billConsumer')?.value.trim();
+  if (!con) { showToast('Enter consumer number'); return; }
+  const btn = document.getElementById('fetchBillBtn');
+  btn.innerHTML = '<span class="spinner"></span> Fetching…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Fetch Bill'; btn.disabled = false;
+    document.getElementById('billFetched').style.display = 'block';
+    document.getElementById('fetchBillBtn').style.display = 'none';
+    document.getElementById('payBillBtn').style.display = 'block';
+    const randomAmt = (Math.floor(Math.random() * 2000) + 500).toLocaleString('en-IN');
+    document.getElementById('billAmount').textContent = randomAmt;
+    selectedPlanAmt = parseInt(randomAmt.replace(',', ''));
+    showToast('Bill fetched successfully ✓');
+  }, 1500);
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (!list) return;
+  let txns = getTxns();
+  if (currentFilter !== 'all') {
+    txns = txns.filter(t => {
+      if (currentFilter === 'sent') return t.type === 'debit' && t.category === 'Transfer';
+      if (currentFilter === 'received') return t.type === 'credit';
+      if (currentFilter === 'recharge') return t.category === 'Recharge';
+      if (currentFilter === 'bills') return t.category === 'Bill Payment';
+      return true;
+    });
+  }
+  if (!txns.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No transactions in this category</div></div>`;
+    return;
+  }
+  const groups = {};
+  txns.forEach(t => { const d = t.date.split(',')[0]; if (!groups[d]) groups[d] = []; groups[d].push(t); });
+  list.innerHTML = Object.entries(groups).map(([date, items]) =>
+    `<div class="txn-date-header">${date}</div><div class="txn-list">${items.map(t => txnCard(t)).join('')}</div><div style="height:8px"></div>`
+  ).join('');
+}
+
+function filterTxn(el, type) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active'); currentFilter = type; renderHistory();
+}
+
+function refreshProfile() {
+  const txns = getTxns();
+  const totalSent = txns.filter(t => t.type === 'debit').reduce((s, t) => s + parseFloat(t.amount), 0);
+  const el1 = document.getElementById('totalSent');
+  const el2 = document.getElementById('txnCount');
+  const el3 = document.getElementById('savingsAmt');
+  if (el1) el1.textContent = '₹' + totalSent.toLocaleString('en-IN');
+  if (el2) el2.textContent = txns.length;
+  if (el3) el3.textContent = '₹' + Math.floor(totalSent * 0.005).toLocaleString('en-IN');
+  const tog = document.getElementById('darkToggle');
+  if (tog) tog.classList.toggle('on', darkMode);
+}
+
+function clearHistory() {
+  if (confirm('Clear all transaction history?')) { saveTxns([]); showToast('History cleared ✓'); refreshProfile(); }
+}
+
+function toggleTheme() {
+  darkMode = !darkMode;
+  document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  const tog = document.getElementById('darkToggle');
+  if (tog) tog.classList.toggle('on', darkMode);
+  localStorage.setItem('swiftpay_theme', darkMode ? 'dark' : 'light');
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toastEl');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function formatDate(d) {
+  const opts = { day:'numeric', month:'short', year:'numeric' };
+  return d.toLocaleDateString('en-IN', opts) + ', ' + d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+}
+
+function seedDemo() {
+  if (getTxns().length > 0) return;
+  saveTxns([
+    { id:'TXN001', name:'Rahul Sharma', amount:500, type:'debit', category:'Transfer', status:'Success', date:'14 Mar 2025, 02:30 PM', color:'#7C3AED', initials:'RS' },
+    { id:'TXN002', name:'Airtel Recharge', amount:299, type:'debit', category:'Recharge', status:'Success', date:'13 Mar 2025, 11:15 AM', color:'#10B981', initials:'📱' },
+    { id:'TXN003', name:'Priya Singh', amount:1200, type:'credit', category:'Transfer', status:'Success', date:'12 Mar 2025, 05:45 PM', color:'#EC4899', initials:'PS' },
+    { id:'TXN004', name:'Electricity Bill', amount:1248, type:'debit', category:'Bill Payment', status:'Success', date:'11 Mar 2025, 09:00 AM', color:'#F59E0B', initials:'💡' },
+    { id:'TXN005', name:'Mohit Verma', amount:350, type:'debit', category:'Transfer', status:'Pending', date:'10 Mar 2025, 07:22 PM', color:'#F59E0B', initials:'MV' },
+    { id:'TXN006', name:'Jio Recharge', amount:239, type:'debit', category:'Recharge', status:'Success', date:'09 Mar 2025, 03:10 PM', color:'#00E5FF', initials:'📱' },
+  ]);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('swiftpay_theme');
+  if (saved) { darkMode = saved === 'dark'; document.documentElement.setAttribute('data-theme', saved); }
+  seedDemo();
+  refreshHome();
+  updateGreeting();
+});
+</script>
+</body>
+</html>

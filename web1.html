@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursive Bio-Tree</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            display: block;
+        }
+        .label {
+            position: absolute;
+            bottom: 20px;
+            color: #444;
+            font-family: monospace;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="label">MOVE MOUSE TO GROW</div>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        resize();
+
+        function drawTree(startX, startY, len, angle, branchWidth) {
+            ctx.beginPath();
+            ctx.save(); // Store current state
+            
+            // Dynamic Colors based on length (the deeper the branch, the greener/brighter)
+            ctx.strokeStyle = `hsl(${140 + len}, 70%, ${40 + (100 / len)}%)`;
+            ctx.lineWidth = branchWidth;
+            
+            ctx.translate(startX, startY);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -len);
+            ctx.stroke();
+
+            // Leaf Logic: If branches are small enough, stop recursing
+            if (len < 10) {
+                ctx.restore();
+                return;
+            }
+
+            // The Math: Using mouse position to dictate the spread of branches
+            // Angle varies between 15 and 45 degrees based on mouseX
+            let spread = (mouseX / width) * 60; 
+
+            // Recursion: The function calls itself twice (Left and Right branch)
+            drawTree(0, -len, len * 0.75, spread, branchWidth * 0.7);
+            drawTree(0, -len, len * 0.75, -spread, branchWidth * 0.7);
+
+            ctx.restore();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Start the tree from the bottom center
+            // Height of first branch is tied to mouseY
+            let initialLen = (height - mouseY) / 3 + 50; 
+            
+            drawTree(width / 2, height - 50, initialLen, 0, 15);
+            
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

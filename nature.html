@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the breathtaking beauty of nature — from majestic mountains and lush forests to crystal oceans and vibrant wildlife. Discover, protect, and cherish our planet.">
+    <title>EarthPulse — Discover the Beauty of Nature</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="nature-styles.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-ring"><div></div><div></div><div></div></div>
+        <p class="loader-text">Loading Nature...</p>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" width="36" height="36"><path d="M20 2C15 8 4 14 4 24c0 8 7 14 16 14s16-6 16-14C36 14 25 8 20 2z" fill="url(#leafGrad)"/><defs><linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs></svg>
+                <span>EarthPulse</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#explore" class="nav-link">Explore</a></li>
+                <li><a href="#gallery" class="nav-link">Gallery</a></li>
+                <li><a href="#stats" class="nav-link">Facts</a></li>
+                <li><a href="#conservation" class="nav-link">Conserve</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#" class="nav-link" id="nav-inbox-btn" onclick="toggleInbox(event)">📬 Inbox</a></li>
+            </ul>
+            <button id="nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-bg">
+            <img src="nature-assets/hero.png" alt="Beautiful valley landscape" loading="eager">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-particles" id="hero-particles"></div>
+        <div class="hero-content">
+            <p class="hero-tag">🌿 Welcome to the Wild</p>
+            <h1 class="hero-title">
+                <span class="line">Experience the</span>
+                <span class="line accent">Majesty of Nature</span>
+            </h1>
+            <p class="hero-desc">Immerse yourself in the untouched beauty of our planet — where mountains touch the sky, rivers carve stories into stone, and life flourishes in every corner.</p>
+            <div class="hero-btns">
+                <a href="#explore" class="btn btn-primary" id="hero-explore-btn">Explore Now <span class="btn-arrow">→</span></a>
+                <a href="#about" class="btn btn-outline" id="hero-learn-btn">Learn More</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"><div class="wheel"></div></div>
+            <p>Scroll to Explore</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-images">
+                    <div class="about-img-main reveal-left"><img src="nature-assets/forest.png" alt="Tropical rainforest"></div>
+                    <div class="about-img-float reveal-left" style="animation-delay:.2s"><img src="nature-assets/wildlife.png" alt="Wildlife deer"></div>
+                </div>
+                <div class="about-text reveal-right">
+                    <span class="section-tag">About Nature</span>
+                    <h2 class="section-title">The Living Tapestry of <span class="highlight">Our Planet</span></h2>
+                    <p>Nature is Earth's greatest masterpiece — a symphony of ecosystems, species, and landscapes woven together over billions of years. From the deepest ocean trenches to the highest mountain peaks, every inch of our planet pulses with life.</p>
+                    <p>Forests breathe life into our atmosphere, oceans regulate our climate, and countless species form an intricate web of interdependence that sustains all living things — including us.</p>
+                    <div class="about-features">
+                        <div class="feature-card"><div class="feature-icon">🌳</div><h4>8.7 Million</h4><p>Estimated species on Earth</p></div>
+                        <div class="feature-card"><div class="feature-icon">🌊</div><h4>71%</h4><p>Earth covered by water</p></div>
+                        <div class="feature-card"><div class="feature-icon">🏔️</div><h4>14</h4><p>Peaks above 8,000m</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explore Section -->
+    <section id="explore">
+        <div class="section-container">
+            <div class="section-header reveal-up">
+                <span class="section-tag">Explore Biomes</span>
+                <h2 class="section-title">Wonders Waiting to be <span class="highlight">Discovered</span></h2>
+                <p class="section-desc">Our planet hosts an incredible variety of ecosystems, each with unique landscapes, climates, and inhabitants.</p>
+            </div>
+            <div class="explore-grid">
+                <div class="explore-card reveal-up" style="--delay:.1s">
+                    <div class="explore-img"><img src="nature-assets/forest.png" alt="Forests"><div class="explore-overlay"></div></div>
+                    <div class="explore-info"><span class="explore-num">01</span><h3>Forests</h3><p>Covering 31% of Earth's land, forests are the lungs of our planet, home to 80% of terrestrial biodiversity.</p><a href="#" class="explore-link">Discover →</a></div>
+                </div>
+                <div class="explore-card reveal-up" style="--delay:.2s">
+                    <div class="explore-img"><img src="nature-assets/ocean.png" alt="Oceans"><div class="explore-overlay"></div></div>
+                    <div class="explore-info"><span class="explore-num">02</span><h3>Oceans</h3><p>The vast blue frontier covers 71% of Earth, containing 97% of all water and countless undiscovered species.</p><a href="#" class="explore-link">Discover →</a></div>
+                </div>
+                <div class="explore-card reveal-up" style="--delay:.3s">
+                    <div class="explore-img"><img src="nature-assets/mountain.png" alt="Mountains"><div class="explore-overlay"></div></div>
+                    <div class="explore-info"><span class="explore-num">03</span><h3>Mountains</h3><p>Majestic peaks that shape weather patterns, feed rivers, and harbor unique alpine ecosystems above the clouds.</p><a href="#" class="explore-link">Discover →</a></div>
+                </div>
+                <div class="explore-card reveal-up" style="--delay:.4s">
+                    <div class="explore-img"><img src="nature-assets/aurora.png" alt="Arctic"><div class="explore-overlay"></div></div>
+                    <div class="explore-info"><span class="explore-num">04</span><h3>Arctic & Tundra</h3><p>Frozen wonderlands where resilient life thrives under extreme conditions and the aurora dances across the sky.</p><a href="#" class="explore-link">Discover →</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Divider -->
+    <section class="parallax-divider" style="background-image:url('nature-assets/waterfall.png')">
+        <div class="parallax-overlay"></div>
+        <div class="parallax-content reveal-up">
+            <h2>"In every walk with nature, one receives far more than he seeks."</h2>
+            <p>— John Muir</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="section-container">
+            <div class="section-header reveal-up">
+                <span class="section-tag">Visual Journey</span>
+                <h2 class="section-title">Nature Through the <span class="highlight">Lens</span></h2>
+                <p class="section-desc">A curated collection of Earth's most awe-inspiring moments captured in time.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item gi-tall reveal-up" style="--delay:.1s"><img src="nature-assets/waterfall.png" alt="Waterfall"><div class="gallery-cap"><h4>Cascading Falls</h4><p>Tropical Paradise</p></div></div>
+                <div class="gallery-item reveal-up" style="--delay:.15s"><img src="nature-assets/mountain.png" alt="Mountain"><div class="gallery-cap"><h4>Alpine Peak</h4><p>Above the Clouds</p></div></div>
+                <div class="gallery-item reveal-up" style="--delay:.2s"><img src="nature-assets/wildlife.png" alt="Wildlife"><div class="gallery-cap"><h4>Forest Spirit</h4><p>Dawn Encounter</p></div></div>
+                <div class="gallery-item gi-wide reveal-up" style="--delay:.25s"><img src="nature-assets/hero.png" alt="Valley"><div class="gallery-cap"><h4>Golden Valley</h4><p>Mountain Vista</p></div></div>
+                <div class="gallery-item reveal-up" style="--delay:.3s"><img src="nature-assets/ocean.png" alt="Ocean"><div class="gallery-cap"><h4>Sunset Shore</h4><p>Coastal Beauty</p></div></div>
+                <div class="gallery-item gi-tall reveal-up" style="--delay:.35s"><img src="nature-assets/aurora.png" alt="Aurora"><div class="gallery-cap"><h4>Northern Lights</h4><p>Arctic Wonder</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats">
+        <div class="stats-bg"><img src="nature-assets/forest.png" alt=""></div>
+        <div class="stats-overlay"></div>
+        <div class="section-container stats-content">
+            <div class="section-header reveal-up">
+                <span class="section-tag" style="color:#a7f3d0">Earth by Numbers</span>
+                <h2 class="section-title" style="color:#fff">The Scale of <span class="highlight">Our World</span></h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card reveal-up" style="--delay:.1s"><div class="stat-icon">🌲</div><h3 class="stat-num" data-target="3040000000000">0</h3><p>Trees on Earth</p></div>
+                <div class="stat-card reveal-up" style="--delay:.2s"><div class="stat-icon">🦋</div><h3 class="stat-num" data-target="8700000">0</h3><p>Estimated Species</p></div>
+                <div class="stat-card reveal-up" style="--delay:.3s"><div class="stat-icon">🌍</div><h3 class="stat-num" data-target="510">0</h3><p>Million km² Surface</p></div>
+                <div class="stat-card reveal-up" style="--delay:.4s"><div class="stat-icon">💧</div><h3 class="stat-num" data-target="97">0</h3><p>% Water in Oceans</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conservation Section -->
+    <section id="conservation">
+        <div class="section-container">
+            <div class="section-header reveal-up">
+                <span class="section-tag">Take Action</span>
+                <h2 class="section-title">Protecting Our <span class="highlight">Future</span></h2>
+                <p class="section-desc">Every action counts. Here's how you can help preserve the natural world for generations to come.</p>
+            </div>
+            <div class="conservation-grid">
+                <div class="cons-card reveal-up" style="--delay:.1s"><div class="cons-icon">♻️</div><h3>Reduce & Recycle</h3><p>Minimize waste and recycle materials to reduce your environmental footprint. Small daily choices create massive impact.</p></div>
+                <div class="cons-card reveal-up" style="--delay:.2s"><div class="cons-icon">🌱</div><h3>Plant Trees</h3><p>Join reforestation efforts. A single tree absorbs up to 22kg of CO₂ per year and provides habitat for countless species.</p></div>
+                <div class="cons-card reveal-up" style="--delay:.3s"><div class="cons-icon">💡</div><h3>Clean Energy</h3><p>Support renewable energy sources. Solar, wind, and hydro power reduce greenhouse emissions and protect ecosystems.</p></div>
+                <div class="cons-card reveal-up" style="--delay:.4s"><div class="cons-icon">🐾</div><h3>Protect Wildlife</h3><p>Support wildlife sanctuaries and conservation programs. Over 40,000 species are currently threatened with extinction.</p></div>
+                <div class="cons-card reveal-up" style="--delay:.5s"><div class="cons-icon">💧</div><h3>Save Water</h3><p>Conserve freshwater resources. Only 3% of Earth's water is fresh, and much of it is locked in glaciers and ice caps.</p></div>
+                <div class="cons-card reveal-up" style="--delay:.6s"><div class="cons-icon">📢</div><h3>Spread Awareness</h3><p>Educate others about environmental issues. Knowledge is the first step toward meaningful change and collective action.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Newsletter Section -->
+    <section id="contact">
+        <div class="section-container">
+            <div class="contact-wrapper reveal-up">
+                <div class="contact-info">
+                    <span class="section-tag">Stay Connected</span>
+                    <h2 class="section-title">Join the <span class="highlight">Movement</span></h2>
+                    <p>Subscribe to our newsletter for weekly nature stories, conservation updates, and breathtaking photography from around the globe.</p>
+                    <div class="contact-details">
+                        <div class="cd-item"><span>📧</span><p>hello@earthpulse.org</p></div>
+                        <div class="cd-item"><span>📍</span><p>Planet Earth, Milky Way</p></div>
+                        <div class="cd-item"><span>🌐</span><p>www.earthpulse.org</p></div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group"><label for="name">Your Name</label><input type="text" id="name" placeholder="John Doe" required></div>
+                    <div class="form-group"><label for="email">Your Email</label><input type="email" id="email" placeholder="john@example.com" required></div>
+                    <div class="form-group"><label for="message">Your Message</label><textarea id="message" rows="4" placeholder="Share your thoughts about nature..."></textarea></div>
+                    <button type="submit" class="btn btn-primary btn-full" id="submit-btn">Send Message <span class="btn-arrow">→</span></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="section-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#hero" class="nav-logo"><svg class="logo-icon" viewBox="0 0 40 40" width="32" height="32"><path d="M20 2C15 8 4 14 4 24c0 8 7 14 16 14s16-6 16-14C36 14 25 8 20 2z" fill="url(#leafGrad2)"/><defs><linearGradient id="leafGrad2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs></svg><span>EarthPulse</span></a>
+                    <p>Dedicated to celebrating and preserving the natural wonders of our beautiful planet.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook" class="social-btn">f</a>
+                        <a href="#" aria-label="Twitter" class="social-btn">𝕏</a>
+                        <a href="#" aria-label="Instagram" class="social-btn">📷</a>
+                        <a href="#" aria-label="YouTube" class="social-btn">▶</a>
+                    </div>
+                </div>
+                <div class="footer-links-col"><h4>Explore</h4><ul><li><a href="#about">About Nature</a></li><li><a href="#explore">Biomes</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#stats">Earth Facts</a></li></ul></div>
+                <div class="footer-links-col"><h4>Take Action</h4><ul><li><a href="#conservation">Conservation</a></li><li><a href="#">Volunteer</a></li><li><a href="#">Donate</a></li><li><a href="#contact">Contact</a></li></ul></div>
+                <div class="footer-links-col"><h4>Resources</h4><ul><li><a href="#">Blog</a></li><li><a href="#">Research</a></li><li><a href="#">Education</a></li><li><a href="#">Partners</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2026 EarthPulse. Made with 💚 for Planet Earth.</p></div>
+        </div>
+    </footer>
+
+    <!-- Message Inbox Panel -->
+    <div id="inbox-overlay" onclick="toggleInbox(event)"></div>
+    <div id="inbox-panel">
+        <div class="inbox-header">
+            <h3>📬 Message Inbox</h3>
+            <div class="inbox-actions">
+                <button id="clear-inbox-btn" onclick="clearInbox()" title="Clear all messages">🗑️ Clear</button>
+                <button id="close-inbox-btn" onclick="toggleInbox(event)" aria-label="Close inbox">✕</button>
+            </div>
+        </div>
+        <div class="inbox-count"><span id="msg-count">0</span> messages received</div>
+        <div id="inbox-messages"></div>
+        <div id="inbox-empty">
+            <div class="empty-icon">📭</div>
+            <p>No messages yet</p>
+            <span>Messages sent through the contact form will appear here</span>
+        </div>
+    </div>
+
+    <!-- Floating Inbox Button -->
+    <button id="inbox-fab" onclick="toggleInbox(event)" aria-label="Open inbox">
+        📬
+        <span id="inbox-badge" class="inbox-badge hidden">0</span>
+    </button>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" aria-label="Back to top">↑</button>
+
+    <script src="nature-script.js"></script>
+</body>
+</html>
